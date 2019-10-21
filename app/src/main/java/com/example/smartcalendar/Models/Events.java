@@ -6,8 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.smartcalendar.database.EventBaseHelper;
 import com.example.smartcalendar.database.EventCursorWrapper;
+import com.example.smartcalendar.database.EventDbSchema;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -27,7 +27,7 @@ public class Events
             sEvents= new Events(context);
         }
 
-        return sEvents
+        return sEvents;
     }
 
     private Events(Context context)
@@ -36,19 +36,19 @@ public class Events
         mDatabase = new EventBaseHelper(mContext).getWritableDatabase();
     }
 
-    public List<Events> getEvents()
+    public List<Event> getEvents()
     {
 
-        List<Event> memories = new ArrayList<>();
+        List<Event> events = new ArrayList<>();
 
-        EventCursorWrapper cursor = queryMemories(null, null);
+        EventCursorWrapper cursor = queryEvents(null, null);
 
         try
         {
             cursor.moveToFirst();
             while(!cursor.isAfterLast())
             {
-                memories.add(cursor.getMemory());
+                events.add(cursor.getEvent());
                 cursor.moveToNext();
             }
         }
@@ -56,44 +56,27 @@ public class Events
             cursor.close();
         }
 
-
-        return memories;
-
+        return events;
 
     }
 
-    public List<Memory> getFavorites()
+    public void addEvent(Event event)
     {
-        List<Memory> memories = getMemories();
-        List<Memory> favorites = new ArrayList<>();
-        for (int i = 0; i < memories.size(); i++)
-        {
-            if (memories.get(i).isFavorite())
-            {
-                favorites.add(memories.get(i));
-            }
-        }
-
-        return favorites;
+        ContentValues values = getContentValues(event);
+        mDatabase.insert(EventDbSchema.EventTable.NAME, null, values);
     }
 
-    public void addMemory(Memory memory)
+    public void deleteEvent(Event event)
     {
-        ContentValues values = getContentValues(memory);
-        mDatabase.insert(MemoryDbSchema.MemoryTable.NAME, null, values);
-    }
-
-    public void deleteMemory(Memory memory)
-    {
-        String uuidString = memory.getId().toString();
-        mDatabase.delete(MemoryDbSchema.MemoryTable.NAME,
-                MemoryDbSchema.MemoryTable.Cols.UUID + " =?",
+        String uuidString = event.getUUID().toString();
+        mDatabase.delete(EventDbSchema.EventTable.NAME,
+                EventDbSchema.EventTable.Cols.UUID + " =?",
                 new String[] { uuidString });
     }
 
-    public Memory getMemory(UUID id)
+    public Event getEvent(UUID id)
     {
-        MemoryCursorWrapper cursor = queryMemories(MemoryDbSchema.MemoryTable.Cols.UUID + " =?",
+        EventCursorWrapper cursor = queryEvents(EventDbSchema.EventTable.Cols.UUID + " =?",
                 new String[] { id.toString()});
 
         try {
@@ -103,38 +86,38 @@ public class Events
             }
 
             cursor.moveToFirst();
-            return cursor.getMemory();
+            return cursor.getEvent();
         }
         finally {
             cursor.close();
         }
     }
 
-    public void updateMemory(Memory memory)
+    public void updateEvent(Event event)
     {
-        String uuidString = memory.getId().toString();
-        ContentValues values = getContentValues(memory);
+        String uuidString = event.getUUID().toString();
+        ContentValues values = getContentValues(event);
 
-        mDatabase.update(MemoryDbSchema.MemoryTable.NAME, values,
-                MemoryDbSchema.MemoryTable.Cols.UUID + " =?",
+        mDatabase.update(EventDbSchema.EventTable.NAME, values,
+                EventDbSchema.EventTable.Cols.UUID + " =?",
                 new String[] { uuidString });
     }
 
-    private static ContentValues getContentValues(Memory memory)
+    private static ContentValues getContentValues(Event event)
     {
         ContentValues values = new ContentValues();
-        values.put(MemoryDbSchema.MemoryTable.Cols.UUID, memory.getId().toString());
-        values.put(MemoryDbSchema.MemoryTable.Cols.TITLE, memory.getTitle());
-        values.put(MemoryDbSchema.MemoryTable.Cols.DATE, memory.getDate().getTime());
-        values.put(MemoryDbSchema.MemoryTable.Cols.FAVORITE, memory.isFavorite() ? 1 : 0);
-        values.put(MemoryDbSchema.MemoryTable.Cols.DESCRIPTION, memory.getDescription());
+        values.put(EventDbSchema.EventTable.Cols.UUID, event.getUUID().toString());
+        values.put(EventDbSchema.EventTable.Cols.TITLE, event.getTitle());
+        values.put(EventDbSchema.EventTable.Cols.DATE, event.getDate().getTime());
+        values.put(EventDbSchema.EventTable.Cols.PRIORITY, event.getPriority());
+        values.put(EventDbSchema.EventTable.Cols.DESCRIPTION, event.getDescription());
 
         return values;
     }
 
-    private MemoryCursorWrapper queryMemories(String whereClause, String[] whereArgs)
+    private EventCursorWrapper queryEvents(String whereClause, String[] whereArgs)
     {
-        Cursor cursor = mDatabase.query(MemoryDbSchema.MemoryTable.NAME,
+        Cursor cursor = mDatabase.query(EventDbSchema.EventTable.NAME,
                 null,
                 whereClause,
                 whereArgs,
@@ -142,12 +125,6 @@ public class Events
                 null,
                 null);
 
-        return new MemoryCursorWrapper(cursor);
-    }
-
-    public File getPhotoFile(Memory memory)
-    {
-        File filesDir = mContext.getFilesDir();
-        return new File(filesDir, memory.getPhtotFilename());
+        return new EventCursorWrapper(cursor);
     }
 }
