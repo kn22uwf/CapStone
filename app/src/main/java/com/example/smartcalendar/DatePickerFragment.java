@@ -34,7 +34,7 @@ public class DatePickerFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
-        View v = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_date, null);
+        View v = LayoutInflater.from(getActivity()).inflate(R.layout.calender, null);
 
         Date date = (Date) getArguments().getSerializable(ARG_DATE);
 

@@ -1,4 +1,4 @@
-package com.example.smartcalendar.Models.sampledata;
+package com.example.smartcalendar.Models;
 
 import java.util.Date;
 import java.util.UUID;
@@ -8,6 +8,7 @@ public class Event {
     private UUID mId;
     private String mTitle;
     private String mDescription;
+    private int mPriority;
     private Date mDate;
 
     public Event()
@@ -15,15 +16,14 @@ public class Event {
         this.mId.randomUUID();
         this.mTitle = "";
         this.mDescription = "";
+        this.mPriority = 0;
         this.mDate = null;
 
     }
 
-    public Event(UUID mId, String mTitle, String mDescription, Date mDate)
+    public Event(UUID mId)
     {
         this.mId = mId;
-        this.mTitle = mTitle;
-        this.mDescription = mDescription;
         this.mDate = mDate;
     }
 
@@ -50,6 +50,16 @@ public class Event {
     public String getDescription()
     {
         return mDescription;
+    }
+
+    public void setPriority(int priority)
+    {
+        this.mPriority = priority;
+    }
+
+    public int getPriority()
+    {
+        return mPriority;
     }
 
     public void setDate(Date mDate)
