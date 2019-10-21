@@ -9,6 +9,7 @@
     android:gravity="center">
 
     <TextView
+        android:id="@+id/select_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Select Date"
@@ -17,10 +18,12 @@
         ></TextView>
 
     <DatePicker
+        android:id="@+id/dialog_date_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         ></DatePicker>
     <ListView
+        android:id="@+id/date_events"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         ></ListView>
