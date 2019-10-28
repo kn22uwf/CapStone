@@ -73,13 +73,5 @@ public class Event {
     {
         return mDate;
     }
-    public void setTime(Time time)
-    {
-        this.mTime = mTime;
-    }
-    public Time getTime()
-    {
-        return mTime;
-    }
 }
 
