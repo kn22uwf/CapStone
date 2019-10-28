@@ -10,6 +10,7 @@ public class Event {
     private String mDescription;
     private int mPriority;
     private Date mDate;
+    private Time mTime;
 
     public Event()
     {
@@ -17,6 +18,7 @@ public class Event {
         this.mTitle = "";
         this.mDescription = "";
         this.mPriority = 0;
+        this.mTime = 0;
         this.mDate = null;
 
     }
@@ -70,6 +72,14 @@ public class Event {
     public Date getDate()
     {
         return mDate;
+    }
+    public void setTime(Time time)
+    {
+        this.mTime = mTime;
+    }
+    public Time getTime()
+    {
+        return mTime;
     }
 }
 
