@@ -45,6 +45,7 @@
             android:layout_width="157dp"
             android:layout_height="wrap_content" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="318dp"
         android:layout_height="60dp"
@@ -59,10 +60,41 @@
 
         <NumberPicker
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="137dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="93dp"
+            android:layout_height="wrap_content"
+            android:text="Description:" />
+
+        <EditText
+            android:layout_width="314dp"
+            android:layout_height="71dp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="318dp"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:layout_gravity="left"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set reminder:" />
+
+        <TimePicker
+            android:layout_width="196dp"
+            android:layout_height="86dp"></TimePicker>
+    </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -74,12 +106,17 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="center">
+
+        <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Create" />
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Delete" />
     </LinearLayout>
 
 </LinearLayout>
