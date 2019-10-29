@@ -56,27 +56,6 @@ public class Events
             cursor.close();
         }
 
-<<<<<<< HEAD
-
-        return events;
-
-
-    }
-
-    public List<Event> getFavorites()
-    {
-        List<Events> events = getEvents();
-        List<Events> favorites = new ArrayList<>();
-        for (int i = 0; i < events.size(); i++)
-        {
-            if (events.get(i).isFavorite())
-            {
-                favorites.add(events.get(i));
-            }
-        }
-
-        return favorites;
-=======
         return events;
 
     }
@@ -85,7 +64,6 @@ public class Events
     {
         ContentValues values = getContentValues(event);
         mDatabase.insert(EventDbSchema.EventTable.NAME, null, values);
->>>>>>> 69c7f029b8df3b6b66fefcb497a09ec0208ab839
     }
 
     public void deleteEvent(Event event)
@@ -137,11 +115,7 @@ public class Events
         return values;
     }
 
-<<<<<<< HEAD
-    private EventCursorWrapper queryMemories(String whereClause, String[] whereArgs)
-=======
     private EventCursorWrapper queryEvents(String whereClause, String[] whereArgs)
->>>>>>> 69c7f029b8df3b6b66fefcb497a09ec0208ab839
     {
         Cursor cursor = mDatabase.query(EventDbSchema.EventTable.NAME,
                 null,

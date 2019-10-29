@@ -1,5 +1,6 @@
 package com.example.smartcalendar.Models;
 
+import java.sql.Time;
 import java.util.Date;
 import java.util.UUID;
 
@@ -18,7 +19,7 @@ public class Event {
         this.mTitle = "";
         this.mDescription = "";
         this.mPriority = 0;
-        this.mTime = 0;
+        this.mTime = null;
         this.mDate = null;
 
     }
