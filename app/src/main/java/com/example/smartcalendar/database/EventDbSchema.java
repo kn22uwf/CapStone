@@ -12,6 +12,7 @@ public class EventDbSchema
             public static final String TITLE = "title";
             public static final String DESCRIPTION = "description";
             public static final String DATE = "date";
+            public static final String TIME = "time";
             public static final String PRIORITY = "priority";
         }
     }

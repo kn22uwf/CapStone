@@ -8,7 +8,6 @@ import com.example.smartcalendar.database.EventBaseHelper;
 import com.example.smartcalendar.database.EventCursorWrapper;
 import com.example.smartcalendar.database.EventDbSchema;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -42,7 +41,7 @@ public class Events
 
         List<Event> events = new ArrayList<>();
 
-        EventCursorWrapper cursor = queryMemories(null, null);
+        EventCursorWrapper cursor = queryEvents(null, null);
 
         try
         {
@@ -57,6 +56,7 @@ public class Events
             cursor.close();
         }
 
+<<<<<<< HEAD
 
         return events;
 
@@ -76,25 +76,29 @@ public class Events
         }
 
         return favorites;
+=======
+        return events;
+
     }
 
-    public void addMemory(Memory memory)
+    public void addEvent(Event event)
     {
-        ContentValues values = getContentValues(memory);
-        mDatabase.insert(MemoryDbSchema.MemoryTable.NAME, null, values);
+        ContentValues values = getContentValues(event);
+        mDatabase.insert(EventDbSchema.EventTable.NAME, null, values);
+>>>>>>> 69c7f029b8df3b6b66fefcb497a09ec0208ab839
     }
 
-    public void deleteMemory(Memory memory)
+    public void deleteEvent(Event event)
     {
-        String uuidString = memory.getId().toString();
-        mDatabase.delete(MemoryDbSchema.MemoryTable.NAME,
-                MemoryDbSchema.MemoryTable.Cols.UUID + " =?",
+        String uuidString = event.getUUID().toString();
+        mDatabase.delete(EventDbSchema.EventTable.NAME,
+                EventDbSchema.EventTable.Cols.UUID + " =?",
                 new String[] { uuidString });
     }
 
-    public Memory getMemory(UUID id)
+    public Event getEvent(UUID id)
     {
-        MemoryCursorWrapper cursor = queryMemories(MemoryDbSchema.MemoryTable.Cols.UUID + " =?",
+        EventCursorWrapper cursor = queryEvents(EventDbSchema.EventTable.Cols.UUID + " =?",
                 new String[] { id.toString()});
 
         try {
@@ -104,36 +108,40 @@ public class Events
             }
 
             cursor.moveToFirst();
-            return cursor.getMemory();
+            return cursor.getEvent();
         }
         finally {
             cursor.close();
         }
     }
 
-    public void updateMemory(Memory memory)
+    public void updateEvent(Event event)
     {
-        String uuidString = memory.getId().toString();
-        ContentValues values = getContentValues(memory);
+        String uuidString = event.getUUID().toString();
+        ContentValues values = getContentValues(event);
 
-        mDatabase.update(MemoryDbSchema.MemoryTable.NAME, values,
-                MemoryDbSchema.MemoryTable.Cols.UUID + " =?",
+        mDatabase.update(EventDbSchema.EventTable.NAME, values,
+                EventDbSchema.EventTable.Cols.UUID + " =?",
                 new String[] { uuidString });
     }
 
     private static ContentValues getContentValues(Event event)
     {
         ContentValues values = new ContentValues();
-        values.put(MemoryDbSchema.MemoryTable.Cols.UUID, memory.getId().toString());
-        values.put(MemoryDbSchema.MemoryTable.Cols.TITLE, memory.getTitle());
-        values.put(MemoryDbSchema.MemoryTable.Cols.DATE, memory.getDate().getTime());
-        values.put(MemoryDbSchema.MemoryTable.Cols.FAVORITE, memory.isFavorite() ? 1 : 0);
-        values.put(MemoryDbSchema.MemoryTable.Cols.DESCRIPTION, memory.getDescription());
+        values.put(EventDbSchema.EventTable.Cols.UUID, event.getUUID().toString());
+        values.put(EventDbSchema.EventTable.Cols.TITLE, event.getTitle());
+        values.put(EventDbSchema.EventTable.Cols.DATE, event.getDate().getTime());
+        values.put(EventDbSchema.EventTable.Cols.PRIORITY, event.getPriority());
+        values.put(EventDbSchema.EventTable.Cols.DESCRIPTION, event.getDescription());
 
         return values;
     }
 
+<<<<<<< HEAD
     private EventCursorWrapper queryMemories(String whereClause, String[] whereArgs)
+=======
+    private EventCursorWrapper queryEvents(String whereClause, String[] whereArgs)
+>>>>>>> 69c7f029b8df3b6b66fefcb497a09ec0208ab839
     {
         Cursor cursor = mDatabase.query(EventDbSchema.EventTable.NAME,
                 null,
