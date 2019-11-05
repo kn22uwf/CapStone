@@ -93,7 +93,7 @@ public class EventListFragment extends Fragment {
             mMemories = memories;
         }
 
-        
+
     }
 
     private RecyclerView mMemoryRecyclerView;
