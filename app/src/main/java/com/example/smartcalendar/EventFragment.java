@@ -1,6 +1,7 @@
 package com.example.smartcalendar;
 
 import android.app.Activity;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -21,12 +22,16 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.example.smartcalendar.Models.Event;
 import com.example.smartcalendar.Models.Events;
 
 import java.io.File;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
@@ -34,27 +39,29 @@ public class EventFragment extends Fragment {
 
 
     //private  static final int REQUEST_PHOTO = 1;
-    private static final String ARG_MEMORY_ID = "event_id";
+    private static final String ARG_EVENT_ID = "event_id";
     private static final String DIALOG_DATE = "Dialog_date";
     private  static final int REQUEST_DATE = 0;
 
 
 
     private Event mEvent;
-    private EditText mTitleField;
-    private EditText mDetailField;
-    private Switch mSwitch;
-    private Button mDateButton;
-    private ImageButton mPhotoButton;
-    private ImageView mImageView;
-    public File mPhotoFile;
+    private EditText mNameField;
+    private TextView mDateField;
+    private NumberPicker mNumberPicker;
+    private EditText mDescription;
+    private TimePickerDialog mTimePickerDialog;
+    private EditText mReminder;
+    private Button mCreate;
+    private Button mDelete;
+    private Calendar calendar;
 
 
 
 
-    public static EventFragment newInstance(UUID memoryID){
+    public static EventFragment newInstance(UUID eventID){
         Bundle args = new Bundle();
-        args.putSerializable(ARG_MEMORY_ID,memoryID);
+        args.putSerializable(ARG_EVENT_ID,eventID);
         EventFragment fragment = new EventFragment();
         fragment.setArguments(args);
         return fragment;
@@ -63,10 +70,9 @@ public class EventFragment extends Fragment {
 
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        UUID eventId = (UUID)getArguments().getSerializable(ARG_MEMORY_ID);
+        UUID eventId = (UUID)getArguments().getSerializable(ARG_EVENT_ID);
         setHasOptionsMenu(true);
         mEvent = Events.get(getActivity()).getEvent(eventId);
-        //mPhotoFile = Events.get(getActivity()).getPhotoFile(mMemory);
     }
 
     @Nullable
@@ -74,9 +80,9 @@ public class EventFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_event,container,false);
 
-        mTitleField = view.findViewById(R.id.eventName);
-        mTitleField.setText(mEvent.getTitle());
-        mTitleField.addTextChangedListener(new TextWatcher() {
+        mNameField = view.findViewById(R.id.eventName);
+        mNameField.setText(mEvent.getTitle());
+        mNameField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -93,9 +99,17 @@ public class EventFragment extends Fragment {
             }
         });
 
-        mDetailField  = view.findViewById(R.id.editText);
-        mDetailField.setText(mMemory.getDescription());
-        mDetailField.addTextChangedListener(new TextWatcher() {
+        mDateField  = view.findViewById(R.id.date);
+        updateDate();
+
+        mNumberPicker = view.findViewById(R.id.number_picker);
+        mNumberPicker.setMaxValue(5);
+        mNumberPicker.setMinValue(1);
+        mNumberPicker.setWrapSelectorWheel(false);
+
+        mDescription = view.findViewById(R.id.description);
+        mDescription.setText(mEvent.getDescription());
+        mDescription.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -103,7 +117,7 @@ public class EventFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mMemory.setDescription(s.toString());
+                mEvent.setDescription(s.toString());
             }
 
             @Override
@@ -112,29 +126,47 @@ public class EventFragment extends Fragment {
             }
         });
 
-        mDateButton = view.findViewById(R.id.memory_date);
-        updateDate();
-        mDateButton.setOnClickListener(new View.OnClickListener() {
+        mReminder = view.findViewById(R.id.reminder);
+        mReminder.setOnClickListener(new View.OnClickListener()
+        {
+
             @Override
             public void onClick(View v) {
-                FragmentManager fragmentManager = getFragmentManager();
-                DatePickerFragment dialog = DatePickerFragment.newInstnce(mMemory.getDate());
-                dialog.setTargetFragment(MemoryFragment.this,REQUEST_DATE);
-                dialog.show(fragmentManager,DIALOG_DATE);
+                calendar = Calendar.getInstance();
+                int currHour = calendar.get(Calendar.HOUR_OF_DAY);
+                int currMinute = calendar.get(Calendar.MINUTE);
+                mTimePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener()
+                {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute)
+                    {
+                        mReminder.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
+                    }
+                }, currHour, currMinute, false);
+
+                mTimePickerDialog.show();
             }
         });
 
-        mSwitch = view.findViewById(R.id.switch1);
-        mSwitch.setChecked(mMemory.isFavorite());
-        mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        mCreate = view.findViewById(R.id.create_button);
+        mCreate.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mMemory.setFavorite(isChecked);
+            public void onClick(View v) {
+                Event event = new Event();
+                Events.get(getActivity()).addEvent(event);
+                Intent intent = EventPagerActivity.newIntent(getActivity(), event.getUUID());
+                startActivity(intent);
             }
         });
 
-        final PackageManager packageManager = getActivity().getPackageManager();
-
+        mDelete = view.findViewById(R.id.delete_button);
+        mDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Events.get(getActivity()).deleteEvent(mEvent);
+                getActivity().finish();
+            }
+        });
 
         return view;
     }
@@ -153,34 +185,9 @@ public class EventFragment extends Fragment {
     }
 
     private void updateDate() {
-        mDateButton.setText(mEvent.getDate().toString());
+        mDateField.setText(mEvent.getDate().toString());
     }
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.fragment_memory, menu);
-        inflater.inflate(R.menu.fragment_memory,menu);
-        MenuItem deleteItem = menu.findItem(R.id.delete_button);
-        MenuItem sendItem = menu.findItem(R.id.send_button);
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.delete_button:
-                MemoryLab.get(getActivity()).deleteMemory(mMemory);
-                getActivity().finish();
-                return true;
-            case R.id.send_button:
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT,getMemoriesReport());
-                intent.putExtra(Intent.EXTRA_SUBJECT,getString(R.string.memories_report_subject));
-                intent = Intent.createChooser(intent,getString(R.string.send_report));
-                startActivity(intent);
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+
     @Override
     public void onPause()
     {

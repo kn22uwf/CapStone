@@ -1,11 +1,13 @@
 package com.example.smartcalendar;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,12 +24,15 @@ import com.example.smartcalendar.Models.Event;
 import com.example.smartcalendar.Models.Events;
 
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 
 public class EventListFragment extends Fragment {
 
 
-
+private Events mEvents;
+    private static final String DIALOG_DATE = "dialog_date";
+    private static final int REQUEST_DATE = 1;
 
     public class EventHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -65,8 +70,8 @@ public class EventListFragment extends Fragment {
 
     private class EventAdapter extends RecyclerView.Adapter<EventHolder>{
         public List<Event> mEvents;
-        public EventAdapter(List<Event> memories){
-            mEvents = memories;
+        public EventAdapter(List<Event> events){
+            mEvents = events;
         }
 
         @NonNull
@@ -76,8 +81,9 @@ public class EventListFragment extends Fragment {
             return new EventHolder(layoutInflater,parent);
         }
 
+
         @Override
-        public void onBindViewHolder(@NonNull EventAdapter eventHolder, int i) {
+        public void onBindViewHolder(@NonNull EventHolder eventHolder, int i) {
             Event event = mEvents.get(i);
             eventHolder.bind(event);
 
@@ -86,57 +92,51 @@ public class EventListFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return mMemories.size();
+            return mEvents.size();
         }
 
-        public void setMemories(List<Memory> memories){
-            mMemories = memories;
+        public void setEvents(List<Event> events){
+            mEvents= events;
         }
 
         
     }
 
-    private RecyclerView mMemoryRecyclerView;
-    private MemoryAdapter mAdapter;
+    private RecyclerView mEventRecyclerView;
+    private EventAdapter mAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-
-        setHasOptionsMenu(true);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_memory_list,container,false);
-        mMemoryRecyclerView = (RecyclerView)view.findViewById(R.id.memory_recycler_view);
-        mMemoryRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        View view = inflater.inflate(R.layout.fragment_event_list,container,false);
+        mEventRecyclerView = (RecyclerView)view.findViewById(R.id.event_recycler_view);
+        mEventRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         updateUI();
         return view;
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
-        super.onCreateOptionsMenu(menu,inflater);
-        inflater.inflate(R.menu.fragment_memory_list,menu);
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_event_list, menu);
     }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()){
-            case R.id.new_memory:
-                Memory memory = new Memory();
-                MemoryLab.get(getActivity()).addMemory(memory);
-                Intent intent = MemoryPagerActivity.newIntent(getActivity(),memory.getId());
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch(item.getItemId())
+        {
+            case R.id.add_event:
+                Event event = new Event();
+                Events.get(getActivity()).addEvent(event);
+                Intent intent = EventPagerActivity.newIntent(getActivity(), event.getUUID());
                 startActivity(intent);
-                return true;
-            case R.id.show_favorite:
-                MemoryLab.get(getActivity()).setShowOnlyFav(true);
-                updateUI();
-                return true;
-            case R.id.show_all:
-                MemoryLab.get(getActivity()).setShowAllFav(false);
-                updateUI();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -152,16 +152,34 @@ public class EventListFragment extends Fragment {
 
     private void updateUI() {
 
-        MemoryLab memoryLab = MemoryLab.get(getActivity());
-        List<Memory> memories = memoryLab.getMemories();
+        Events event = Events.get(getActivity());
+        List<Event> events = event.getEvents();
 
         if (mAdapter == null) {
-            mAdapter = new MemoryAdapter(memories);
-            mMemoryRecyclerView.setAdapter(mAdapter);
+            mAdapter = new EventAdapter(events);
+            mEventRecyclerView.setAdapter(mAdapter);
         } else {
-
-            mAdapter.setMemories(memories);
+            mAdapter.setEvents(events);
             mAdapter.notifyDataSetChanged();
+        }
+        FragmentManager manager = getFragmentManager();
+        DatePickerFragment dialog = DatePickerFragment.newInstance(event.getDate());
+        dialog.setTargetFragment(EventListFragment.this, REQUEST_DATE);
+        dialog.show(manager,DIALOG_DATE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(resultCode != Activity.RESULT_OK)
+        {
+            return;
+        }
+
+        else if(requestCode == REQUEST_DATE)
+        {
+            Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+            mEvents.setDate(date);
+
         }
     }
 

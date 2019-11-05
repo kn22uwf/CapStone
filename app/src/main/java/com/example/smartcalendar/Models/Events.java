@@ -9,6 +9,7 @@ import com.example.smartcalendar.database.EventCursorWrapper;
 import com.example.smartcalendar.database.EventDbSchema;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,6 +17,8 @@ public class Events
 {
 
     private static Events sEvents;
+    private Date mDate;
+
 
     private Context mContext;
     private SQLiteDatabase mDatabase;
@@ -32,8 +35,19 @@ public class Events
 
     private Events(Context context)
     {
+        mDate = new Date();
         mContext = context.getApplicationContext();
         mDatabase = new EventBaseHelper(mContext).getWritableDatabase();
+    }
+
+    public Date getDate()
+    {
+        return this.mDate;
+    }
+
+    public void setDate(Date date)
+    {
+        this.mDate = date;
     }
 
     public List<Event> getEvents()

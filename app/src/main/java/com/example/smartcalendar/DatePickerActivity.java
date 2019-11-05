@@ -2,15 +2,11 @@ package com.example.smartcalendar;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
 import java.util.UUID;
 
-public class EventActivity extends SingleFragmentActivity {
-
+public class DatePickerActivity extends SingleFragmentActivity {
     private static final String EXTRA_EVENT_ID = "event_id";
 
 
@@ -18,7 +14,7 @@ public class EventActivity extends SingleFragmentActivity {
     public Fragment createFragment() {
         UUID eventId = (UUID) getIntent().getSerializableExtra(EXTRA_EVENT_ID);
 
-        return EventFragment.newInstance(eventId);
+        return new EventListFragment();
 
     }
 
