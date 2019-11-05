@@ -29,18 +29,14 @@ public class EventListFragment extends Fragment {
 
 
 
-    public class MemoryHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class EventHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private Event mEvent;
-        private ImageView mImageIcon;
         private TextView mTitle;
         private TextView mDate;
-        private File mPhotoFile;
-        private ImageView mMemoryFav;
 
 
-
-        public MemoryHolder(LayoutInflater inflater,ViewGroup parent){
+        public EventHolder(LayoutInflater inflater,ViewGroup parent){
 
             super(inflater.inflate(R.layout.list_item_event,parent,false));
             itemView.setOnClickListener(this);
@@ -60,42 +56,30 @@ public class EventListFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            Intent intent = MemoryPagerActivity.newIntent(getActivity(),mMemory.getId());
+            Intent intent = EventPagerActivity.newIntent(getActivity(),mEvent.getUUID());
             startActivity(intent);
 
         }
 
-
-        public void updatePhotoView(){
-            if(mImageIcon == null || !mPhotoFile.exists()){
-                mImageIcon.setImageDrawable(null);
-            }
-            else{
-
-                Bitmap bitmap = PictureUtils.getScaledBitmap(mPhotoFile.getPath(),mImageIcon.getMeasuredWidth(),mImageIcon.getMeasuredHeight());
-                mImageIcon.setImageBitmap(bitmap);
-
-            }
-        }
     }
 
-    private class MemoryAdapter extends RecyclerView.Adapter<MemoryHolder>{
-        public List<Memory> mMemories;
-        public MemoryAdapter(List<Memory> memories){
-            mMemories = memories;
+    private class EventAdapter extends RecyclerView.Adapter<EventHolder>{
+        public List<Event> mEvents;
+        public EventAdapter(List<Event> memories){
+            mEvents = memories;
         }
 
         @NonNull
         @Override
-        public MemoryHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
+        public EventHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            return new MemoryHolder(layoutInflater,parent);
+            return new EventHolder(layoutInflater,parent);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull MemoryHolder memoryHolder, int i) {
-            Memory memory = mMemories.get(i);
-            memoryHolder.bind(memory);
+        public void onBindViewHolder(@NonNull EventAdapter eventHolder, int i) {
+            Event event = mEvents.get(i);
+            eventHolder.bind(event);
 
 
         }
