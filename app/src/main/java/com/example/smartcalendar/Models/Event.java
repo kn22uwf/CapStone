@@ -13,10 +13,9 @@ public class Event {
     private Date mDate;
     private Time mTime;
 
-    public Event(Date date)
+    public Event()
     {
         this.mId = UUID.randomUUID();
-        this.mDate = date;
     }
 
     public Event(UUID mId, Date date)
