@@ -28,6 +28,7 @@
     <EditText
         android:id="@+id/eventName"
         android:layout_width="157dp"
+        android:text="Nothing yet"
         android:layout_height="wrap_content" />
 </LinearLayout>
     <LinearLayout
@@ -80,6 +81,7 @@
         <EditText
             android:id="@+id/description"
             android:layout_width="314dp"
+            android:text="No description yet"
             android:layout_height="71dp" />
 
     </LinearLayout>

@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.example.smartcalendar.Models.Event;
 import com.example.smartcalendar.Models.Events;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,10 +22,13 @@ public class EventPagerActivity extends AppCompatActivity {
     private List<Event> mEvents;
 
     private static final String EXTRA_MEMORY_ID = "memory_id";
+    private static final String EXTRA_DATE_ID = "date_id";
 
-    public static Intent newIntent(Context packageContext, UUID eventId){
+
+    public static Intent newIntent(Context packageContext, UUID eventId, Date date){
         Intent intent = new Intent(packageContext,EventPagerActivity.class);
         intent.putExtra(EXTRA_MEMORY_ID,eventId);
+        intent.putExtra(EXTRA_DATE_ID, date);
         return  intent;
     }
 
@@ -34,6 +38,7 @@ public class EventPagerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_event_pager);
 
         UUID eventId = (UUID)getIntent().getSerializableExtra(EXTRA_MEMORY_ID);
+        Date date = (Date)getIntent().getSerializableExtra(EXTRA_DATE_ID);
 
 
         mViewPager = findViewById(R.id.event_view_pager);
@@ -43,7 +48,7 @@ public class EventPagerActivity extends AppCompatActivity {
             @Override
             public Fragment getItem(int i) {
                 Event event = mEvents.get(i);
-                return EventFragment.newInstance(event.getUUID());
+                return EventFragment.newInstance(event.getUUID(), event.getDate());
             }
 
             @Override
