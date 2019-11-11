@@ -107,7 +107,8 @@ private Events mEvents;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
+    super.onCreate(savedInstanceState);
+    setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -125,6 +126,8 @@ private Events mEvents;
     {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_event_list, menu);
+        setMenuVisibility(true);
+
     }
 
     @Override
@@ -146,7 +149,6 @@ private Events mEvents;
     @Override
     public void onResume(){
         super.onResume();
-
         updateUI();
     }
 
@@ -178,7 +180,7 @@ private Events mEvents;
         else if(requestCode == REQUEST_DATE)
         {
             Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
-            mEvents.setDate(date);
+            //mEvents.setDate(date);
 
         }
     }

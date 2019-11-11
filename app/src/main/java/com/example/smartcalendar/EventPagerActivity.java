@@ -21,12 +21,11 @@ public class EventPagerActivity extends AppCompatActivity {
     private List<Event> mEvents;
 
     private static final String EXTRA_MEMORY_ID = "memory_id";
-    public static Intent newIntent(Context packageContext, UUID memoryId){
+
+    public static Intent newIntent(Context packageContext, UUID eventId){
         Intent intent = new Intent(packageContext,EventPagerActivity.class);
-        intent.putExtra(EXTRA_MEMORY_ID,memoryId);
+        intent.putExtra(EXTRA_MEMORY_ID,eventId);
         return  intent;
-
-
     }
 
     @Override
@@ -37,7 +36,7 @@ public class EventPagerActivity extends AppCompatActivity {
         UUID eventId = (UUID)getIntent().getSerializableExtra(EXTRA_MEMORY_ID);
 
 
-        mViewPager = (ViewPager) findViewById(R.id.event_view_pager);
+        mViewPager = findViewById(R.id.event_view_pager);
         mEvents = Events.get(this).getEvents();
         FragmentManager fragmentManager = getSupportFragmentManager();
         mViewPager.setAdapter(new FragmentStatePagerAdapter(fragmentManager) {
