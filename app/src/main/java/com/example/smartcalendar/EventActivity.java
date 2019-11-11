@@ -21,10 +21,10 @@ public class EventActivity extends SingleFragmentActivity {
 
         UUID eventId = (UUID) getIntent().getSerializableExtra(EXTRA_EVENT_ID);
         System.out.println("eat my ass daddy" + eventId);
-        Date date = (Date) getIntent().getSerializableExtra(EXTRA_EVENT_DATE);
-        System.out.println("THE DATE IS " + date.toString());
+        //Date date = (Date) getIntent().getSerializableExtra(EXTRA_EVENT_DATE);
+        //System.out.println("THE DATE IS " + date.toString());
 
-        return EventFragment.newInstance(eventId, date);
+        return EventFragment.newInstance(eventId);
 
     }
 
@@ -32,6 +32,12 @@ public class EventActivity extends SingleFragmentActivity {
         Intent intent = new Intent(packageContext,EventActivity.class);
         intent.putExtra(EXTRA_EVENT_ID,eventId);
         intent.putExtra(EXTRA_EVENT_DATE, date);
+        return intent;
+    }
+
+    public static Intent newIntent(Context packageContext, UUID eventId){
+        Intent intent = new Intent(packageContext,EventActivity.class);
+        intent.putExtra(EXTRA_EVENT_ID,eventId);
         return intent;
     }
 }
