@@ -1,11 +1,13 @@
 package com.example.smartcalendar;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,12 +24,15 @@ import com.example.smartcalendar.Models.Event;
 import com.example.smartcalendar.Models.Events;
 
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 
 public class EventListFragment extends Fragment {
 
 
-
+private Events mEvents;
+    private static final String DIALOG_DATE = "dialog_date";
+    private static final int REQUEST_DATE = 1;
 
     public class EventHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -69,13 +74,13 @@ public class EventListFragment extends Fragment {
             mEvents = events;
         }
 
-
         @NonNull
         @Override
         public EventHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
             return new EventHolder(layoutInflater,parent);
         }
+
 
         @Override
         public void onBindViewHolder(@NonNull EventHolder eventHolder, int i) {
@@ -91,10 +96,10 @@ public class EventListFragment extends Fragment {
         }
 
         public void setEvents(List<Event> events){
-            mEvents = events;
+            mEvents= events;
         }
 
-
+        
     }
 
     private RecyclerView mEventRecyclerView;
@@ -103,8 +108,6 @@ public class EventListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-
-        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -118,8 +121,32 @@ public class EventListFragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_event_list, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch(item.getItemId())
+        {
+            case R.id.add_event:
+                Event event = new Event();
+                Events.get(getActivity()).addEvent(event);
+                Intent intent = EventPagerActivity.newIntent(getActivity(), event.getUUID());
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void onResume(){
         super.onResume();
+
         updateUI();
     }
 
@@ -132,9 +159,27 @@ public class EventListFragment extends Fragment {
             mAdapter = new EventAdapter(events);
             mEventRecyclerView.setAdapter(mAdapter);
         } else {
-
             mAdapter.setEvents(events);
             mAdapter.notifyDataSetChanged();
+        }
+        FragmentManager manager = getFragmentManager();
+        DatePickerFragment dialog = DatePickerFragment.newInstance(event.getDate());
+        dialog.setTargetFragment(EventListFragment.this, REQUEST_DATE);
+        dialog.show(manager,DIALOG_DATE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(resultCode != Activity.RESULT_OK)
+        {
+            return;
+        }
+
+        else if(requestCode == REQUEST_DATE)
+        {
+            Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+            mEvents.setDate(date);
+
         }
     }
 
