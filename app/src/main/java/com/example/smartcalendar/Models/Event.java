@@ -15,13 +15,7 @@ public class Event {
 
     public Event()
     {
-        this.mId.randomUUID();
-        this.mTitle = "";
-        this.mDescription = "";
-        this.mPriority = 0;
-        this.mTime = null;
-        this.mDate = null;
-
+        this(UUID.randomUUID());
     }
 
     public Event(UUID mId)
