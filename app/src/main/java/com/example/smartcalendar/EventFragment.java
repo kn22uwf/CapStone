@@ -186,6 +186,7 @@ public class EventFragment extends Fragment {
     }
 
     private void updateDate() {
+
         mDateField.setText(mEvent.getDate().toString());
     }
 
