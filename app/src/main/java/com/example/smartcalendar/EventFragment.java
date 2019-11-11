@@ -59,10 +59,9 @@ public class EventFragment extends Fragment {
 
 
 
-    public static EventFragment newInstance(UUID eventID, Date date){
+    public static EventFragment newInstance(UUID eventID){
         Bundle args = new Bundle();
         args.putSerializable(ARG_EVENT_ID,eventID);
-        args.putSerializable(DATE, date);
         EventFragment fragment = new EventFragment();
         fragment.setArguments(args);
         return fragment;

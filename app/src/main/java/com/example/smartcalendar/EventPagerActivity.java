@@ -48,7 +48,7 @@ public class EventPagerActivity extends AppCompatActivity {
             @Override
             public Fragment getItem(int i) {
                 Event event = mEvents.get(i);
-                return EventFragment.newInstance(event.getUUID(), event.getDate());
+                return EventFragment.newInstance(event.getUUID());
             }
 
             @Override
