@@ -59,9 +59,10 @@ public class EventFragment extends Fragment {
 
 
 
-    public static EventFragment newInstance(UUID eventID){
+    public static EventFragment newInstance(UUID eventID, Date date){
         Bundle args = new Bundle();
         args.putSerializable(ARG_EVENT_ID,eventID);
+        args.putSerializable(DATE, date);
         EventFragment fragment = new EventFragment();
         fragment.setArguments(args);
         return fragment;
@@ -73,6 +74,7 @@ public class EventFragment extends Fragment {
         UUID eventId = (UUID)getArguments().getSerializable(ARG_EVENT_ID);
         setHasOptionsMenu(true);
         mEvent = Events.get(getActivity()).getEvent(eventId);
+        mEvent.setDate((Date) getArguments().getSerializable(DATE));
     }
 
     @Nullable
