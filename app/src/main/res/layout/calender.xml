@@ -17,15 +17,15 @@
 
         ></TextView>
 
-    <DatePicker
-        android:id="@+id/dialog_date_picker"
+    <CalendarView
+        android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        ></DatePicker>
-    <ListView
+        ></CalendarView>
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/date_events"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        ></ListView>
+        ></android.support.v7.widget.RecyclerView>
 
     </LinearLayout>

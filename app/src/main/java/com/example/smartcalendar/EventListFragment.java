@@ -61,7 +61,7 @@ private Events mEvents;
 
         @Override
         public void onClick(View v) {
-            Intent intent = EventPagerActivity.newIntent(getActivity(),mEvent.getUUID());
+            Intent intent = EventPagerActivity.newIntent(getActivity(),mEvent.getUUID(), mEvent.getDate());
             startActivity(intent);
 
         }
@@ -121,30 +121,6 @@ private Events mEvents;
         return view;
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-    {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.fragment_event_list, menu);
-        setMenuVisibility(true);
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch(item.getItemId())
-        {
-            case R.id.add_event:
-                Event event = new Event();
-                Events.get(getActivity()).addEvent(event);
-                Intent intent = EventPagerActivity.newIntent(getActivity(), event.getUUID());
-                startActivity(intent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 
     @Override
     public void onResume(){
@@ -164,10 +140,10 @@ private Events mEvents;
             mAdapter.setEvents(events);
             mAdapter.notifyDataSetChanged();
         }
-        FragmentManager manager = getFragmentManager();
-        DatePickerFragment dialog = DatePickerFragment.newInstance(event.getDate());
-        dialog.setTargetFragment(EventListFragment.this, REQUEST_DATE);
-        dialog.show(manager,DIALOG_DATE);
+        //FragmentManager manager = getFragmentManager();
+        //DatePickerFragment dialog = DatePickerFragment.newInstance(event.getDate());
+        //dialog.setTargetFragment(EventListFragment.this, REQUEST_DATE);
+        //dialog.show(manager,DIALOG_DATE);
     }
 
     @Override
@@ -180,6 +156,7 @@ private Events mEvents;
         else if(requestCode == REQUEST_DATE)
         {
             Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+            //mEvents.setDate(date);
             //mEvents.setDate(date);
 
         }

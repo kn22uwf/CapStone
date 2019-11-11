@@ -40,7 +40,7 @@ public class EventFragment extends Fragment {
 
     //private  static final int REQUEST_PHOTO = 1;
     private static final String ARG_EVENT_ID = "event_id";
-    private static final String DIALOG_DATE = "Dialog_date";
+    private static final String DATE = "Dialog_date";
     private  static final int REQUEST_DATE = 0;
 
 
@@ -59,9 +59,10 @@ public class EventFragment extends Fragment {
 
 
 
-    public static EventFragment newInstance(UUID eventID){
+    public static EventFragment newInstance(UUID eventID, Date date){
         Bundle args = new Bundle();
         args.putSerializable(ARG_EVENT_ID,eventID);
+        args.putSerializable(DATE, date);
         EventFragment fragment = new EventFragment();
         fragment.setArguments(args);
         return fragment;
@@ -147,17 +148,18 @@ public class EventFragment extends Fragment {
                 mTimePickerDialog.show();
             }
         });
-
+/*
         mCreate = view.findViewById(R.id.create_button);
         mCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Event event = new Event();
                 Events.get(getActivity()).addEvent(event);
-                Intent intent = EventPagerActivity.newIntent(getActivity(), event.getUUID());
+                Intent intent = EventPagerActivity.newIntent(getActivity(), event.getUUID(), event.getDate());
                 startActivity(intent);
             }
         });
+        */
 
         mDelete = view.findViewById(R.id.delete_button);
         mDelete.setOnClickListener(new View.OnClickListener() {

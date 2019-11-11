@@ -13,15 +13,16 @@ public class Event {
     private Date mDate;
     private Time mTime;
 
-    public Event()
+    public Event(Date date)
     {
-        this(UUID.randomUUID());
+        this.mId = UUID.randomUUID();
+        this.mDate = date;
     }
 
-    public Event(UUID mId)
+    public Event(UUID mId, Date date)
     {
         this.mId = mId;
-        this.mDate = mDate;
+        this.mDate = date;
     }
 
     public UUID getUUID()
