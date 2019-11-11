@@ -45,9 +45,7 @@ public class EventFragment extends Fragment {
     private EditText mDetailField;
     private Switch mSwitch;
     private Button mDateButton;
-    private ImageButton mPhotoButton;
-    private ImageView mImageView;
-    public File mPhotoFile;
+
 
 
 

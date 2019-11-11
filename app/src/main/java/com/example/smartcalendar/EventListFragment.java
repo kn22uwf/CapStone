@@ -65,9 +65,10 @@ public class EventListFragment extends Fragment {
 
     private class EventAdapter extends RecyclerView.Adapter<EventHolder>{
         public List<Event> mEvents;
-        public EventAdapter(List<Event> memories){
-            mEvents = memories;
+        public EventAdapter(List<Event> events){
+            mEvents = events;
         }
+
 
         @NonNull
         @Override
@@ -77,7 +78,7 @@ public class EventListFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull EventAdapter eventHolder, int i) {
+        public void onBindViewHolder(@NonNull EventHolder eventHolder, int i) {
             Event event = mEvents.get(i);
             eventHolder.bind(event);
 
@@ -86,18 +87,18 @@ public class EventListFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return mMemories.size();
+            return mEvents.size();
         }
 
-        public void setMemories(List<Memory> memories){
-            mMemories = memories;
+        public void setEvents(List<Event> events){
+            mEvents = events;
         }
 
 
     }
 
-    private RecyclerView mMemoryRecyclerView;
-    private MemoryAdapter mAdapter;
+    private RecyclerView mEventRecyclerView;
+    private EventAdapter mAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -109,58 +110,30 @@ public class EventListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_memory_list,container,false);
-        mMemoryRecyclerView = (RecyclerView)view.findViewById(R.id.memory_recycler_view);
-        mMemoryRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        View view = inflater.inflate(R.layout.fragment_event_list,container,false);
+        mEventRecyclerView = (RecyclerView)view.findViewById(R.id.event_recycler_view);
+        mEventRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         updateUI();
         return view;
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
-        super.onCreateOptionsMenu(menu,inflater);
-        inflater.inflate(R.menu.fragment_memory_list,menu);
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()){
-            case R.id.new_memory:
-                Memory memory = new Memory();
-                MemoryLab.get(getActivity()).addMemory(memory);
-                Intent intent = MemoryPagerActivity.newIntent(getActivity(),memory.getId());
-                startActivity(intent);
-                return true;
-            case R.id.show_favorite:
-                MemoryLab.get(getActivity()).setShowOnlyFav(true);
-                updateUI();
-                return true;
-            case R.id.show_all:
-                MemoryLab.get(getActivity()).setShowAllFav(false);
-                updateUI();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
     public void onResume(){
         super.onResume();
-
         updateUI();
     }
 
     private void updateUI() {
 
-        MemoryLab memoryLab = MemoryLab.get(getActivity());
-        List<Memory> memories = memoryLab.getMemories();
+        Events event = Events.get(getActivity());
+        List<Event> events = event.getEvents();
 
         if (mAdapter == null) {
-            mAdapter = new MemoryAdapter(memories);
-            mMemoryRecyclerView.setAdapter(mAdapter);
+            mAdapter = new EventAdapter(events);
+            mEventRecyclerView.setAdapter(mAdapter);
         } else {
 
-            mAdapter.setMemories(memories);
+            mAdapter.setEvents(events);
             mAdapter.notifyDataSetChanged();
         }
     }
