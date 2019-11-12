@@ -107,8 +107,8 @@ private Events mEvents;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
-    super.onCreate(savedInstanceState);
-    setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
