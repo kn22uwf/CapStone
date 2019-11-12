@@ -107,7 +107,17 @@ public class EventFragment extends Fragment {
         mNumberPicker = view.findViewById(R.id.number_picker);
         mNumberPicker.setMaxValue(5);
         mNumberPicker.setMinValue(1);
-        mNumberPicker.setWrapSelectorWheel(false);
+        mNumberPicker.setWrapSelectorWheel(true);
+        mNumberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                mEvent.setPriority(newVal);
+            }
+        });
+
+
+
+
 
         mDescription = view.findViewById(R.id.description);
         mDescription.setText(mEvent.getDescription());
@@ -149,18 +159,15 @@ public class EventFragment extends Fragment {
                 mTimePickerDialog.show();
             }
         });
-/*
+
         mCreate = view.findViewById(R.id.create_button);
         mCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Event event = new Event();
-                Events.get(getActivity()).addEvent(event);
-                Intent intent = EventPagerActivity.newIntent(getActivity(), event.getUUID(), event.getDate());
-                startActivity(intent);
+                getActivity().finish();
             }
         });
-        */
+
 
         mDelete = view.findViewById(R.id.delete_button);
         mDelete.setOnClickListener(new View.OnClickListener() {
@@ -188,6 +195,7 @@ public class EventFragment extends Fragment {
     }
 
     private void updateDate() {
+
         mDateField.setText(mEvent.getDate().toString());
     }
 
@@ -200,6 +208,7 @@ public class EventFragment extends Fragment {
         //mCallBacks.onCrimeUpdated(mMemory);
 
     }
+
 
 
 

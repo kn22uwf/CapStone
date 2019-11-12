@@ -111,7 +111,6 @@ private Events mEvents;
     setHasOptionsMenu(true);
     }
 
-    @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_event_list,container,false);
