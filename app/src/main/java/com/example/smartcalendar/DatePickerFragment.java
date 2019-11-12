@@ -37,7 +37,8 @@ import java.util.UUID;
 public class DatePickerFragment extends Fragment {
 
     private static final String ARG_DATE = "arg_date";
-    public static final String EXTRA_DATE = "extra_date";
+    private static final String EXTRA_DATE = "extra_date";
+    private static final int REQUEST_EVENT = 1;
 
     public class EventHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -198,8 +199,7 @@ public class DatePickerFragment extends Fragment {
                 Event event = new Event();
                 Events.get(getActivity()).addEvent(event);
                 Intent i = EventActivity.newIntent(getActivity(), event.getUUID(), picked);
-                startActivity(i);
-                updateUI();
+                startActivityForResult(i, REQUEST_EVENT);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -235,6 +235,23 @@ public class DatePickerFragment extends Fragment {
         //DatePickerFragment dialog = DatePickerFragment.newInstance(event.getDate());
         //dialog.setTargetFragment(EventListFragment.this, REQUEST_DATE);
         //dialog.show(manager,DIALOG_DATE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(resultCode != Activity.RESULT_OK)
+        {
+            return;
+        }
+
+        else if(requestCode == REQUEST_EVENT)
+        {
+            Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+            Event event = (Event) data.getSerializableExtra(EventFragment.)
+            //mEvents.setDate(date);
+            //mEvents.setDate(date);
+
+        }
     }
 }
 

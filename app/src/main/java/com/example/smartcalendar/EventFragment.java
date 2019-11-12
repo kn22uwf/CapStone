@@ -41,6 +41,7 @@ public class EventFragment extends Fragment {
     //private  static final int REQUEST_PHOTO = 1;
     private static final String ARG_EVENT_ID = "event_id";
     private static final String DATE = "Dialog_date";
+    private static final String EVENT = "event";
     private  static final int REQUEST_DATE = 0;
 
 

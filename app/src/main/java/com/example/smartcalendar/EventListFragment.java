@@ -146,20 +146,20 @@ private Events mEvents;
         //dialog.show(manager,DIALOG_DATE);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
-        if(resultCode != Activity.RESULT_OK)
-        {
-            return;
-        }
+        @Override
+        public void onActivityResult(int requestCode, int resultCode, Intent data){
+            if(resultCode != Activity.RESULT_OK)
+            {
+                return;
+            }
 
-        else if(requestCode == REQUEST_DATE)
-        {
-            Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
-            //mEvents.setDate(date);
-            //mEvents.setDate(date);
+            else if(requestCode == REQUEST_DATE)
+            {
+                Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+                //mEvents.setDate(date);
+                //mEvents.setDate(date);
 
+            }
         }
-    }
 
 }
