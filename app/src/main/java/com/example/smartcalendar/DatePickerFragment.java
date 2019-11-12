@@ -245,6 +245,7 @@ public class DatePickerFragment extends Fragment {
             //Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
             Event event = (Event) data.getSerializableExtra(EventFragment.EVENT);
             Events.get(getActivity()).addEvent(event);
+            System.out.println("FUCK THIS SHIT " + event.getDate().toString());
             updateUI();
             //mEvents.setDate(date);
             //mEvents.setDate(date);
