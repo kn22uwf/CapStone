@@ -60,6 +60,9 @@ public class DatePickerFragment extends Fragment {
             mTitle.setText(mEvent.getTitle());
             mDate.setText(mEvent.getDate().toString());
 
+
+
+
         }
 
         @Override
@@ -107,7 +110,7 @@ public class DatePickerFragment extends Fragment {
 
 
     private CalendarView mCalendarView;
-    private ListView mListView;
+    //private ListView mListView;
     private Date picked = new Date();
     private RecyclerView mEventRecyclerView;
     private EventAdapter mAdapter;
@@ -146,7 +149,7 @@ public class DatePickerFragment extends Fragment {
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         mCalendarView = (CalendarView) v.findViewById(R.id.date);
-        System.out.println(mCalendarView.getDate());
+
         mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange( CalendarView view, int year, int month, int dayOfMonth) {
@@ -158,7 +161,6 @@ public class DatePickerFragment extends Fragment {
 
             }
         });
-        System.out.println(mCalendarView.getDate());
         /*
         ArrayList<String> alpha = new ArrayList<>();
 
@@ -246,10 +248,14 @@ public class DatePickerFragment extends Fragment {
             //Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
             Event event = (Event) data.getSerializableExtra(EventFragment.EVENT);
             Events.get(getActivity()).addEvent(event);
+
             updateUI();
             //mEvents.setDate(date);
             //mEvents.setDate(date);
 
+        }
+        else{
+            System.out.println("TESTING");
         }
     }
     @Override

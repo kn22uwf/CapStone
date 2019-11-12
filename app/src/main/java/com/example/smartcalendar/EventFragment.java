@@ -73,9 +73,10 @@ public class EventFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         UUID eventId = (UUID)getArguments().getSerializable(ARG_EVENT_ID);
+        Date date = (Date)getArguments().getSerializable(DATE);
         setHasOptionsMenu(true);
         mEvent = Events.get(getActivity()).getEvent(eventId);
-        mEvent.setDate((Date) getArguments().getSerializable(DATE));
+        mEvent.setDate(date);
     }
 
     @Nullable
@@ -179,6 +180,7 @@ public class EventFragment extends Fragment {
             }
         });
 
+
         return view;
     }
 
@@ -197,6 +199,8 @@ public class EventFragment extends Fragment {
     private void updateDate() {
 
         mDateField.setText(mEvent.getDate().toString());
+        sendResult(Activity.RESULT_OK,mEvent.getDate());
+
     }
 
     @Override
@@ -208,7 +212,14 @@ public class EventFragment extends Fragment {
         //mCallBacks.onCrimeUpdated(mMemory);
 
     }
-
+    private void sendResult(int resultCode,Date date){
+        if(getTargetFragment()== null){
+            return;
+        }
+        Intent intent = new Intent();
+        intent.putExtra(EVENT,date);
+        getTargetFragment().onActivityResult(getTargetRequestCode(),resultCode,intent);
+    }
 
 
 

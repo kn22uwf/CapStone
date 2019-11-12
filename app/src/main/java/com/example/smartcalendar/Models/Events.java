@@ -42,6 +42,7 @@ public class Events
 
     public Date getDate()
     {
+
         return this.mDate;
     }
 
@@ -141,4 +142,5 @@ public class Events
 
         return new EventCursorWrapper(cursor);
     }
+
 }
