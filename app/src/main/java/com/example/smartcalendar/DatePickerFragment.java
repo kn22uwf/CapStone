@@ -197,7 +197,7 @@ public class DatePickerFragment extends Fragment {
         {
             case R.id.add_event:
                 Event event = new Event();
-                Events.get(getActivity()).addEvent(event);
+                //Events.get(getActivity()).addEvent(event);
                 Intent i = EventActivity.newIntent(getActivity(), event.getUUID(), picked);
                 startActivityForResult(i, REQUEST_EVENT);
                 return true;
@@ -238,20 +238,25 @@ public class DatePickerFragment extends Fragment {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
-        if(resultCode != Activity.RESULT_OK)
-        {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) {
             return;
-        }
-
-        else if(requestCode == REQUEST_EVENT)
-        {
-            Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
-            Event event = (Event) data.getSerializableExtra(EventFragment.)
+        } else if (requestCode == REQUEST_EVENT) {
+            //Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+            Event event = (Event) data.getSerializableExtra(EventFragment.EVENT);
+            Events.get(getActivity()).addEvent(event);
+            updateUI();
             //mEvents.setDate(date);
             //mEvents.setDate(date);
 
         }
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        updateUI();
+
     }
 }
 

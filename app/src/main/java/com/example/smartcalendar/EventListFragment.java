@@ -111,7 +111,6 @@ private Events mEvents;
     setHasOptionsMenu(true);
     }
 
-    @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_event_list,container,false);
@@ -155,7 +154,7 @@ private Events mEvents;
 
             else if(requestCode == REQUEST_DATE)
             {
-                Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+                //Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
                 //mEvents.setDate(date);
                 //mEvents.setDate(date);
 
