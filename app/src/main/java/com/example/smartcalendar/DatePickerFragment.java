@@ -236,5 +236,11 @@ public class DatePickerFragment extends Fragment {
         //dialog.setTargetFragment(EventListFragment.this, REQUEST_DATE);
         //dialog.show(manager,DIALOG_DATE);
     }
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        updateUI();
+    }
 }
 

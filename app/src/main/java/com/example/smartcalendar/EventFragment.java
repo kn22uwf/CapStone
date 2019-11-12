@@ -159,18 +159,15 @@ public class EventFragment extends Fragment {
                 mTimePickerDialog.show();
             }
         });
-/*
+
         mCreate = view.findViewById(R.id.create_button);
         mCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Event event = new Event();
-                Events.get(getActivity()).addEvent(event);
-                Intent intent = EventPagerActivity.newIntent(getActivity(), event.getUUID(), event.getDate());
-                startActivity(intent);
+                getActivity().finish();
             }
         });
-        */
+
 
         mDelete = view.findViewById(R.id.delete_button);
         mDelete.setOnClickListener(new View.OnClickListener() {
