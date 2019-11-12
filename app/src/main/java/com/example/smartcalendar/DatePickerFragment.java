@@ -197,7 +197,7 @@ public class DatePickerFragment extends Fragment {
         {
             case R.id.add_event:
                 Event event = new Event();
-                //Events.get(getActivity()).addEvent(event);
+                Events.get(getActivity()).addEvent(event);
                 Intent i = EventActivity.newIntent(getActivity(), event.getUUID(), picked);
                 startActivityForResult(i, REQUEST_EVENT);
                 return true;
