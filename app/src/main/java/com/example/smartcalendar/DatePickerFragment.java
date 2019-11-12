@@ -199,6 +199,7 @@ public class DatePickerFragment extends Fragment {
                 Events.get(getActivity()).addEvent(event);
                 Intent i = EventActivity.newIntent(getActivity(), event.getUUID(), picked);
                 startActivity(i);
+                updateUI();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
