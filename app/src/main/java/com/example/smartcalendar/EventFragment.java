@@ -107,7 +107,17 @@ public class EventFragment extends Fragment {
         mNumberPicker = view.findViewById(R.id.number_picker);
         mNumberPicker.setMaxValue(5);
         mNumberPicker.setMinValue(1);
-        mNumberPicker.setWrapSelectorWheel(false);
+        mNumberPicker.setWrapSelectorWheel(true);
+        mNumberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                mEvent.setPriority(newVal);
+            }
+        });
+
+
+
+
 
         mDescription = view.findViewById(R.id.description);
         mDescription.setText(mEvent.getDescription());
@@ -201,6 +211,7 @@ public class EventFragment extends Fragment {
         //mCallBacks.onCrimeUpdated(mMemory);
 
     }
+
 
 
 
