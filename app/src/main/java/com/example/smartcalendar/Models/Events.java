@@ -22,6 +22,7 @@ public class Events
 
     private Context mContext;
     private SQLiteDatabase mDatabase;
+    private int mPriority;
 
     public static Events get(Context context)
     {
@@ -43,6 +44,11 @@ public class Events
     public Date getDate()
     {
         return this.mDate;
+    }
+
+    public void setShowHigh(int high)
+    {
+        mPriority = high;
     }
 
     public void setDate(Date date)

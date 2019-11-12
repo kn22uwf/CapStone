@@ -64,13 +64,10 @@ public class DatePickerFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            Intent intent = EventPagerActivity.newIntent(getActivity(),mEvent.getUUID(), mEvent.getDate());
+            Intent intent = EventPagerActivity.newIntent(getActivity(), mEvent.getUUID(), mEvent.getDate());
             startActivity(intent);
-
         }
-
     }
-
     private class EventAdapter extends RecyclerView.Adapter<EventHolder>{
         public List<Event> mEvents;
         public EventAdapter(List<Event> events){
@@ -84,13 +81,10 @@ public class DatePickerFragment extends Fragment {
             return new EventHolder(layoutInflater,parent);
         }
 
-
         @Override
         public void onBindViewHolder(@NonNull EventHolder eventHolder, int i) {
             Event event = mEvents.get(i);
             eventHolder.bind(event);
-
-
         }
 
         @Override
@@ -155,7 +149,8 @@ public class DatePickerFragment extends Fragment {
                 picked.setDate(dayOfMonth);
                 picked.setMinutes(month);
                 picked.setYear(year);
-
+                Events.get(getActivity()).setShowHigh(5);
+                updateUI();
             }
         });
         System.out.println(mCalendarView.getDate());
@@ -203,6 +198,10 @@ public class DatePickerFragment extends Fragment {
                 Intent i = EventActivity.newIntent(getActivity(), event.getUUID(), picked);
                 startActivityForResult(i, REQUEST_EVENT);
                 return true;
+            case R.id.filter_high:
+                Events.get(getActivity()).setShowHigh(5);
+                updateUI();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -247,15 +246,8 @@ public class DatePickerFragment extends Fragment {
             Date date = (Date) data.getSerializableExtra(EventFragment.EVENT);
             Event event = new Event(UUID.randomUUID(), date);
             Events.get(getActivity()).addEvent(event);
-            System.out.println("FUCK THIS SHIT " + event.getDate().toString());
             updateUI();
-            //mEvents.setDate(date);
-            //mEvents.setDate(date);
 
-        }
-        else
-        {
-            System.out.println("something fucked up");
         }
     }
     @Override
