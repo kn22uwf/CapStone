@@ -122,8 +122,8 @@ public class Events
         ContentValues values = new ContentValues();
         values.put(EventDbSchema.EventTable.Cols.UUID, event.getUUID().toString());
         values.put(EventDbSchema.EventTable.Cols.TITLE, event.getTitle());
-        //values.put(EventDbSchema.EventTable.Cols.DATE, event.getDate().getTime());
-        //values.put(EventDbSchema.EventTable.Cols.PRIORITY, event.getPriority());
+        values.put(EventDbSchema.EventTable.Cols.DATE, event.getDate().getTime());
+        values.put(EventDbSchema.EventTable.Cols.PRIORITY, event.getPriority());
         values.put(EventDbSchema.EventTable.Cols.DESCRIPTION, event.getDescription());
 
         return values;

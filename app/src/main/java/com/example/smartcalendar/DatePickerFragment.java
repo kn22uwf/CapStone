@@ -197,7 +197,8 @@ public class DatePickerFragment extends Fragment {
         switch(item.getItemId())
         {
             case R.id.add_event:
-                Event event = new Event();
+                Event event = new Event(picked);
+                System.out.println("clicked to add event " + event.getDate().toString());
                 Events.get(getActivity()).addEvent(event);
                 Intent i = EventActivity.newIntent(getActivity(), event.getUUID(), picked);
                 startActivityForResult(i, REQUEST_EVENT);
@@ -243,14 +244,18 @@ public class DatePickerFragment extends Fragment {
         if (resultCode != Activity.RESULT_OK) {
             return;
         } else if (requestCode == REQUEST_EVENT) {
-            //Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
-            Event event = (Event) data.getSerializableExtra(EventFragment.EVENT);
+            Date date = (Date) data.getSerializableExtra(EventFragment.EVENT);
+            Event event = new Event(UUID.randomUUID(), date);
             Events.get(getActivity()).addEvent(event);
             System.out.println("FUCK THIS SHIT " + event.getDate().toString());
             updateUI();
             //mEvents.setDate(date);
             //mEvents.setDate(date);
 
+        }
+        else
+        {
+            System.out.println("something fucked up");
         }
     }
     @Override
