@@ -155,6 +155,7 @@ public class DatePickerFragment extends Fragment {
                 picked.setDate(dayOfMonth);
                 picked.setMinutes(month);
                 picked.setYear(year);
+
             }
         });
         System.out.println(mCalendarView.getDate());
@@ -254,7 +255,6 @@ public class DatePickerFragment extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
-
         updateUI();
 
     }
