@@ -18,10 +18,11 @@ public class Events
 
     private static Events sEvents;
     private Date mDate;
-
+    private Date mShowOnlyDate;
 
     private Context mContext;
     private SQLiteDatabase mDatabase;
+    private int mPriority;
 
     public static Events get(Context context)
     {
@@ -42,7 +43,13 @@ public class Events
 
     public Date getDate()
     {
+
         return this.mDate;
+    }
+
+    public void setShowHigh(int high)
+    {
+        mPriority = high;
     }
 
     public void setDate(Date date)
@@ -77,20 +84,22 @@ public class Events
     public List<Event> getEvents(Date date)
     {
         List<Event> events = new ArrayList<>();
-        System.out.println("Date " + date.toString());
+
         EventCursorWrapper cursor = queryEvents(null, null);
         try
         {
             cursor.moveToFirst();
             while(!cursor.isAfterLast())
             {
-                if (cursor.getEvent().getDate() == date)
-                {
+                System.out.println("The date in the db is " + cursor.getEvent().getDate().getDate() + "\nThe date clicked is " + date.getDate());
+                //if (cursor.getEvent().getDate().compareTo(date) == 0)
+
+                if((cursor.getEvent().getDate().getDate()== date.getDate()) && (cursor.getEvent().getDate().getMonth()== date.getMonth()) && cursor.getEvent().getDate().getYear()== date.getYear()){
+                    System.out.println("adding date to array list");
                     events.add(cursor.getEvent());
                 }
-               else
-                {
-                    System.out.println("The event date is " + cursor.getEvent().getDate().toString() + " and the date being checked is " + date.toString());
+                else{
+                    System.out.println("the event date is: " +cursor.getEvent().getDate().getTime()+ " add the date beibg checked is " + date.getTime());
                 }
                 cursor.moveToNext();
             }
@@ -109,6 +118,7 @@ public class Events
         System.out.println("The date being inserted into the db is " + values.get(EventDbSchema.EventTable.Cols.DATE));
         mDatabase.insert(EventDbSchema.EventTable.NAME, null, values);
     }
+
 
     public void deleteEvent(Event event)
     {
@@ -153,7 +163,8 @@ public class Events
         ContentValues values = new ContentValues();
         values.put(EventDbSchema.EventTable.Cols.UUID, event.getUUID().toString());
         values.put(EventDbSchema.EventTable.Cols.TITLE, event.getTitle());
-        values.put(EventDbSchema.EventTable.Cols.DATE, event.getDate().toString());
+        values.put(EventDbSchema.EventTable.Cols.DATE, event.getDate().getTime());
+        values.put(EventDbSchema.EventTable.Cols.TIME, event.getTIme());
         values.put(EventDbSchema.EventTable.Cols.PRIORITY, event.getPriority());
         values.put(EventDbSchema.EventTable.Cols.DESCRIPTION, event.getDescription());
 
@@ -171,5 +182,9 @@ public class Events
                 null);
 
         return new EventCursorWrapper(cursor);
+    }
+
+    public void setShowOnlyDate(Date date) {
+        mShowOnlyDate = date;
     }
 }

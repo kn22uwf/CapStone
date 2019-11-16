@@ -169,7 +169,8 @@ public class EventFragment extends Fragment {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute)
                     {
-                        mReminder.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
+                        String alpha = hourOfDay + ":" + minute;
+                        mReminder.setText(alpha);
                     }
                 }, currHour, currMinute, false);
 
@@ -205,9 +206,7 @@ public class EventFragment extends Fragment {
         }
         if(requestCode == REQUEST_DATE){
 
-
         }
-
     }
 
     private void updateDate() {

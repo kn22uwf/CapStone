@@ -150,16 +150,15 @@ public class DatePickerFragment extends Fragment {
             @Override
             public void onSelectedDayChange( CalendarView view, int year, int month, int dayOfMonth) {
                 //mCalendarView.setDate(view.getDate());
-                //System.out.println(calendar.getTime().getDate() + " " + calendar.getTime().getMonth() + " " + calendar.getTime().getYear());
-                picked.setDate(dayOfMonth);
-                picked.setMinutes(month);
-                picked.setYear(year);
-
+                picked = new Date(year, month, dayOfMonth);
+                //picked.setDate(dayOfMonth);
+                //picked.setMinutes(month);
+                //picked.setYear(year);
+                //Events.get(getActivity()).setShowOnlyDate(picked);
+                System.out.println("pcikeddddddd " +picked.toString());
                 updateUI(picked);
-
             }
         });
-        System.out.println(mCalendarView.getDate());
         /*
         ArrayList<String> alpha = new ArrayList<>();
 

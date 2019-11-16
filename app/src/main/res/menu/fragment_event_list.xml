@@ -7,5 +7,10 @@
         android:icon="@drawable/ic_add"
         android:title="add_event"
         app:showAsAction="ifRoom|withText" />
+    <item
+        android:id="@+id/filter_high"
+        android:icon="@drawable/ic_high_filter"
+        android:title="add_event"
+        app:showAsAction="ifRoom|withText" />
 
 </menu>

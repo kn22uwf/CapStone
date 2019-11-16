@@ -11,7 +11,9 @@ public class Event {
     private String mDescription;
     private int mPriority;
     private Date mDate;
-    private Time mTime;
+    private Date mShowOnlyDate;
+
+    private String mTime;
 
     public Event()
     {
@@ -38,6 +40,16 @@ public class Event {
     public void setTitle(String mTitle)
     {
         this.mTitle = mTitle;
+    }
+
+    public String getTIme()
+    {
+        return this.mTime;
+    }
+
+    public void setTime(String mTime)
+    {
+        this.mTime = mTime;
     }
 
     public String getTitle()
@@ -73,6 +85,10 @@ public class Event {
     public Date getDate()
     {
         return mDate;
+    }
+
+    public Date isDate(){
+        return  mShowOnlyDate;
     }
 }
 
