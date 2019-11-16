@@ -154,6 +154,7 @@ public class DatePickerFragment extends Fragment {
                 picked.setDate(dayOfMonth);
                 picked.setMinutes(month);
                 picked.setYear(year);
+
                 updateUI(picked);
 
             }

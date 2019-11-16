@@ -23,7 +23,6 @@ public class EventCursorWrapper extends CursorWrapper {
         Long time = getLong(getColumnIndex(EventDbSchema.EventTable.Cols.TIME));
         int priority = getInt(getColumnIndex(EventDbSchema.EventTable.Cols.PRIORITY));
         String description = getString(getColumnIndex(EventDbSchema.EventTable.Cols.DESCRIPTION));
-
         Event event = new Event(UUID.fromString(uuidString), new Date(date));
         event.setTitle(title);
         event.setDate(new Date(date));

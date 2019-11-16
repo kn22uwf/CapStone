@@ -77,13 +77,21 @@ public class Events
     public List<Event> getEvents(Date date)
     {
         List<Event> events = new ArrayList<>();
-        EventCursorWrapper cursor = queryEvents(EventDbSchema.EventTable.Cols.DATE + " =?", new String[] { date.toString()});
+        System.out.println("Date " + date.toString());
+        EventCursorWrapper cursor = queryEvents(null, null);
         try
         {
             cursor.moveToFirst();
             while(!cursor.isAfterLast())
             {
-                events.add(cursor.getEvent());
+                if (cursor.getEvent().getDate() == date)
+                {
+                    events.add(cursor.getEvent());
+                }
+               else
+                {
+                    System.out.println("The event date is " + cursor.getEvent().getDate().toString() + " and the date being checked is " + date.toString());
+                }
                 cursor.moveToNext();
             }
         }
@@ -96,7 +104,9 @@ public class Events
 
     public void addEvent(Event event)
     {
+        //System.out.println("in addEvent, printing date " + event.getDate().toString());
         ContentValues values = getContentValues(event);
+        System.out.println("The date being inserted into the db is " + values.get(EventDbSchema.EventTable.Cols.DATE));
         mDatabase.insert(EventDbSchema.EventTable.NAME, null, values);
     }
 
@@ -139,10 +149,11 @@ public class Events
 
     private static ContentValues getContentValues(Event event)
     {
+        System.out.println("in getContentValues, printing date " + event.getDate().toString());
         ContentValues values = new ContentValues();
         values.put(EventDbSchema.EventTable.Cols.UUID, event.getUUID().toString());
         values.put(EventDbSchema.EventTable.Cols.TITLE, event.getTitle());
-        values.put(EventDbSchema.EventTable.Cols.DATE, event.getDate().getTime());
+        values.put(EventDbSchema.EventTable.Cols.DATE, event.getDate().toString());
         values.put(EventDbSchema.EventTable.Cols.PRIORITY, event.getPriority());
         values.put(EventDbSchema.EventTable.Cols.DESCRIPTION, event.getDescription());
 
