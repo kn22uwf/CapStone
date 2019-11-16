@@ -90,13 +90,12 @@ public class Events
             cursor.moveToFirst();
             while(!cursor.isAfterLast())
             {
-                if(cursor.getEvent().isDate() != date) {
+                if(cursor.getEvent().getDate() == date){
+                    System.out.println("adding date to array list");
                     events.add(cursor.getEvent());
                 }
-                else {
-                    if(cursor.getEvent().isDate() == date) {
-                        events.add(cursor.getEvent());
-                    }
+                else{
+                    //System.out.println("the event date is: " +cursor.getEvent().getDate().toString()+ " add the date beibg checked is " + date.toString());
                 }
                 cursor.moveToNext();
             }

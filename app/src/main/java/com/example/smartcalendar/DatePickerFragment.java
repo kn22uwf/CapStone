@@ -150,15 +150,15 @@ public class DatePickerFragment extends Fragment {
             @Override
             public void onSelectedDayChange( CalendarView view, int year, int month, int dayOfMonth) {
                 //mCalendarView.setDate(view.getDate());
-                System.out.println(picked);
+
                 picked.setDate(dayOfMonth);
                 picked.setMinutes(month);
                 picked.setYear(year);
-                Events.get(getActivity()).setShowOnlyDate(picked);
-                updateUI();
+                //Events.get(getActivity()).setShowOnlyDate(picked);
+                System.out.println("pcikeddddddd " +picked.toString());
+                updateUI(picked);
             }
         });
-        System.out.println(mCalendarView.getDate());
         /*
         ArrayList<String> alpha = new ArrayList<>();
 
@@ -221,10 +221,10 @@ public class DatePickerFragment extends Fragment {
         getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, intent);
     }
 
-    private void updateUI() {
+    private void updateUI(Date date) {
 
         Events event = Events.get(getActivity());
-        List<Event> events = event.getEvents();
+        List<Event> events = event.getEvents(date);
 
         if (mAdapter == null) {
             mAdapter = new EventAdapter(events);
@@ -248,7 +248,7 @@ public class DatePickerFragment extends Fragment {
             Event event = new Event(UUID.randomUUID(), date);
             Events.get(getActivity()).addEvent(event);
             System.out.println("FUCK THIS SHIT " + event.getDate().toString());
-            updateUI();
+            updateUI(picked);
             //mEvents.setDate(date);
             //mEvents.setDate(date);
 
@@ -261,7 +261,7 @@ public class DatePickerFragment extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
-        updateUI();
+        updateUI(picked);
 
     }
 }
