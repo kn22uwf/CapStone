@@ -74,6 +74,26 @@ public class Events
 
     }
 
+    public List<Event> getEvents(Date date)
+    {
+        List<Event> events = new ArrayList<>();
+        EventCursorWrapper cursor = queryEvents(EventDbSchema.EventTable.Cols.DATE + " =?", new String[] { date.toString()});
+        try
+        {
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast())
+            {
+                events.add(cursor.getEvent());
+                cursor.moveToNext();
+            }
+        }
+        finally {
+            cursor.close();
+        }
+
+        return events;
+    }
+
     public void addEvent(Event event)
     {
         ContentValues values = getContentValues(event);
