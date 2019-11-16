@@ -90,7 +90,8 @@ public class Events
             cursor.moveToFirst();
             while(!cursor.isAfterLast())
             {
-                if(cursor.getEvent().getDate() == date){
+                System.out.println(cursor.getEvent().getDate() +" "+ date);
+                if(cursor.getEvent().getDate().getDay() == date.getDay()&&cursor.getEvent().getDate().getMonth() == date.getMonth()&&cursor.getEvent().getDate().getYear() == date.getYear()){
                     System.out.println("adding date to array list");
                     events.add(cursor.getEvent());
                 }
@@ -103,6 +104,8 @@ public class Events
         finally {
             cursor.close();
         }
+
+        System.out.println("size of array list "+events.size());
 
         return events;
     }
