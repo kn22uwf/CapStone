@@ -64,10 +64,13 @@ public class DatePickerFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            Intent intent = EventPagerActivity.newIntent(getActivity(), mEvent.getUUID(), mEvent.getDate());
+            Intent intent = EventPagerActivity.newIntent(getActivity(),mEvent.getUUID(), mEvent.getDate());
             startActivity(intent);
+
         }
+
     }
+
     private class EventAdapter extends RecyclerView.Adapter<EventHolder>{
         public List<Event> mEvents;
         public EventAdapter(List<Event> events){
@@ -81,10 +84,13 @@ public class DatePickerFragment extends Fragment {
             return new EventHolder(layoutInflater,parent);
         }
 
+
         @Override
         public void onBindViewHolder(@NonNull EventHolder eventHolder, int i) {
             Event event = mEvents.get(i);
             eventHolder.bind(event);
+
+
         }
 
         @Override
@@ -101,7 +107,7 @@ public class DatePickerFragment extends Fragment {
 
 
     private CalendarView mCalendarView;
-    //private ListView mListView;
+    private ListView mListView;
     private Date picked = new Date();
     private RecyclerView mEventRecyclerView;
     private EventAdapter mAdapter;
@@ -129,7 +135,6 @@ public class DatePickerFragment extends Fragment {
         View v = LayoutInflater.from(getActivity()).inflate(R.layout.calender, null);
         mEventRecyclerView = (RecyclerView)v.findViewById(R.id.date_events);
         mEventRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        updateUI();
         Events event = Events.get(getActivity());
         List<Event> events = event.getEvents();
         Date date = (Date) event.getDate();
@@ -140,19 +145,20 @@ public class DatePickerFragment extends Fragment {
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         mCalendarView = (CalendarView) v.findViewById(R.id.date);
-
+        System.out.println(mCalendarView.getDate());
         mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange( CalendarView view, int year, int month, int dayOfMonth) {
                 //mCalendarView.setDate(view.getDate());
-                //System.out.println(calendar.getTime().getDate() + " " + calendar.getTime().getMonth() + " " + calendar.getTime().getYear());
+                System.out.println(picked);
                 picked.setDate(dayOfMonth);
                 picked.setMinutes(month);
                 picked.setYear(year);
-                Events.get(getActivity()).setShowHigh(5);
+                Events.get(getActivity()).setShowOnlyDate(picked);
                 updateUI();
             }
         });
+        System.out.println(mCalendarView.getDate());
         /*
         ArrayList<String> alpha = new ArrayList<>();
 
@@ -197,11 +203,6 @@ public class DatePickerFragment extends Fragment {
                 Intent i = EventActivity.newIntent(getActivity(), event.getUUID(), picked);
                 startActivityForResult(i, REQUEST_EVENT);
                 return true;
-            case R.id.filter_high:
-                Events.get(getActivity()).setShowHigh(5);
-                updateUI();
-                System.out.println("Pressing filter");
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -220,29 +221,6 @@ public class DatePickerFragment extends Fragment {
         getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, intent);
     }
 
-
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != Activity.RESULT_OK) {
-            return;
-        } else if (requestCode == REQUEST_EVENT) {
-            Date date = (Date) data.getSerializableExtra(EventFragment.EVENT);
-            Event event = new Event(UUID.randomUUID(), date);
-            Events.get(getActivity()).addEvent(event);
-            updateUI();
-
-        }
-        else{
-            System.out.println("TESTING");
-        }
-    }
-    @Override
-    public void onResume(){
-        super.onResume();
-        updateUI();
-    }
-
     private void updateUI() {
 
         Events event = Events.get(getActivity());
@@ -255,6 +233,36 @@ public class DatePickerFragment extends Fragment {
             mAdapter.setEvents(events);
             mAdapter.notifyDataSetChanged();
         }
+        //FragmentManager manager = getFragmentManager();
+        //DatePickerFragment dialog = DatePickerFragment.newInstance(event.getDate());
+        //dialog.setTargetFragment(EventListFragment.this, REQUEST_DATE);
+        //dialog.show(manager,DIALOG_DATE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        } else if (requestCode == REQUEST_EVENT) {
+            Date date = (Date) data.getSerializableExtra(EventFragment.EVENT);
+            Event event = new Event(UUID.randomUUID(), date);
+            Events.get(getActivity()).addEvent(event);
+            System.out.println("FUCK THIS SHIT " + event.getDate().toString());
+            updateUI();
+            //mEvents.setDate(date);
+            //mEvents.setDate(date);
+
+        }
+        else
+        {
+            System.out.println("something fucked up");
+        }
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+        updateUI();
+
     }
 }
 

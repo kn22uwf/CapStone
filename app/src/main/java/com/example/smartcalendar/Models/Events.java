@@ -18,7 +18,7 @@ public class Events
 
     private static Events sEvents;
     private Date mDate;
-
+    private Date mShowOnlyDate;
 
     private Context mContext;
     private SQLiteDatabase mDatabase;
@@ -79,6 +79,33 @@ public class Events
 
         return events;
 
+    }
+
+    public List<Event> getEvents(Date date)
+    {
+        List<Event> events = new ArrayList<>();
+        EventCursorWrapper cursor = queryEvents(null, null);
+        try
+        {
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast())
+            {
+                if(cursor.getEvent().isDate() != date) {
+                    events.add(cursor.getEvent());
+                }
+                else {
+                    if(cursor.getEvent().isDate() == date) {
+                        events.add(cursor.getEvent());
+                    }
+                }
+                cursor.moveToNext();
+            }
+        }
+        finally {
+            cursor.close();
+        }
+
+        return events;
     }
 
     public void addEvent(Event event)
@@ -149,4 +176,7 @@ public class Events
         return new EventCursorWrapper(cursor);
     }
 
+    public void setShowOnlyDate(Date date) {
+        mShowOnlyDate = date;
+    }
 }
