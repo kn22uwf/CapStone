@@ -23,6 +23,7 @@ public class EventActivity extends SingleFragmentActivity {
         System.out.println("eat my ass daddy" + eventId);
         Date date = (Date) getIntent().getSerializableExtra(EXTRA_EVENT_DATE);
         //System.out.println("THE DATE IS " + date.toString());
+        System.out.println("THE DATE IS ughhhhhhh " + date.toString());
 
         return EventFragment.newInstance(eventId, date);
 

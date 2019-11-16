@@ -64,6 +64,7 @@ public class EventFragment extends Fragment {
         Bundle args = new Bundle();
         args.putSerializable(ARG_EVENT_ID,eventID);
         args.putSerializable(DATE, date);
+        //System.out.println("Datey mcDateFace " + date.toString() );
         EventFragment fragment = new EventFragment();
         fragment.setArguments(args);
         return fragment;
@@ -73,10 +74,12 @@ public class EventFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         UUID eventId = (UUID)getArguments().getSerializable(ARG_EVENT_ID);
-        Date date = (Date)getArguments().getSerializable(DATE);
+        //Date date = (Date) getArguments().getSerializable(DATE);
         setHasOptionsMenu(true);
         mEvent = Events.get(getActivity()).getEvent(eventId);
-        mEvent.setDate(date);
+        //Date date = Events.get(getActivity()).getDate();
+        Date date = mEvent.getDate();
+        //System.out.println("Hello fuckers" + date.toString());
     }
 
     @Nullable
@@ -180,7 +183,6 @@ public class EventFragment extends Fragment {
             }
         });
 
-
         return view;
     }
 
@@ -191,16 +193,13 @@ public class EventFragment extends Fragment {
         }
         if(requestCode == REQUEST_DATE){
 
-
         }
-
     }
 
     private void updateDate() {
 
         mDateField.setText(mEvent.getDate().toString());
-        sendResult(Activity.RESULT_OK,mEvent.getDate());
-
+        sendResult(Activity.RESULT_OK, mEvent.getDate());
     }
 
     @Override
@@ -212,14 +211,19 @@ public class EventFragment extends Fragment {
         //mCallBacks.onCrimeUpdated(mMemory);
 
     }
-    private void sendResult(int resultCode,Date date){
-        if(getTargetFragment()== null){
+
+    private void sendResult(int resultCode, Date date)
+    {
+        if (getTargetFragment() == null)
+        {
             return;
         }
-        Intent intent = new Intent();
-        intent.putExtra(EVENT,date);
-        getTargetFragment().onActivityResult(getTargetRequestCode(),resultCode,intent);
+        Intent i = new Intent();
+        i.putExtra(EVENT, date);
+        getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, i);
+
     }
+
 
 
 

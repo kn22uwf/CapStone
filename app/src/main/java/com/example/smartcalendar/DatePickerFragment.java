@@ -60,20 +60,14 @@ public class DatePickerFragment extends Fragment {
             mTitle.setText(mEvent.getTitle());
             mDate.setText(mEvent.getDate().toString());
 
-
-
-
         }
 
         @Override
         public void onClick(View v) {
-            Intent intent = EventPagerActivity.newIntent(getActivity(),mEvent.getUUID(), mEvent.getDate());
+            Intent intent = EventPagerActivity.newIntent(getActivity(), mEvent.getUUID(), mEvent.getDate());
             startActivity(intent);
-
         }
-
     }
-
     private class EventAdapter extends RecyclerView.Adapter<EventHolder>{
         public List<Event> mEvents;
         public EventAdapter(List<Event> events){
@@ -87,13 +81,10 @@ public class DatePickerFragment extends Fragment {
             return new EventHolder(layoutInflater,parent);
         }
 
-
         @Override
         public void onBindViewHolder(@NonNull EventHolder eventHolder, int i) {
             Event event = mEvents.get(i);
             eventHolder.bind(event);
-
-
         }
 
         @Override
@@ -158,7 +149,8 @@ public class DatePickerFragment extends Fragment {
                 picked.setDate(dayOfMonth);
                 picked.setMinutes(month);
                 picked.setYear(year);
-
+                Events.get(getActivity()).setShowHigh(5);
+                updateUI();
             }
         });
         /*
@@ -199,10 +191,16 @@ public class DatePickerFragment extends Fragment {
         switch(item.getItemId())
         {
             case R.id.add_event:
-                Event event = new Event();
+                Event event = new Event(picked);
+                System.out.println("clicked to add event " + event.getDate().toString());
                 Events.get(getActivity()).addEvent(event);
                 Intent i = EventActivity.newIntent(getActivity(), event.getUUID(), picked);
                 startActivityForResult(i, REQUEST_EVENT);
+                return true;
+            case R.id.filter_high:
+                Events.get(getActivity()).setShowHigh(5);
+                updateUI();
+                System.out.println("Pressing filter");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -222,6 +220,29 @@ public class DatePickerFragment extends Fragment {
         getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, intent);
     }
 
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        } else if (requestCode == REQUEST_EVENT) {
+            Date date = (Date) data.getSerializableExtra(EventFragment.EVENT);
+            Event event = new Event(UUID.randomUUID(), date);
+            Events.get(getActivity()).addEvent(event);
+            updateUI();
+
+        }
+        else{
+            System.out.println("TESTING");
+        }
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+        updateUI();
+    }
+
     private void updateUI() {
 
         Events event = Events.get(getActivity());
@@ -234,35 +255,6 @@ public class DatePickerFragment extends Fragment {
             mAdapter.setEvents(events);
             mAdapter.notifyDataSetChanged();
         }
-        //FragmentManager manager = getFragmentManager();
-        //DatePickerFragment dialog = DatePickerFragment.newInstance(event.getDate());
-        //dialog.setTargetFragment(EventListFragment.this, REQUEST_DATE);
-        //dialog.show(manager,DIALOG_DATE);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != Activity.RESULT_OK) {
-            return;
-        } else if (requestCode == REQUEST_EVENT) {
-            //Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
-            Event event = (Event) data.getSerializableExtra(EventFragment.EVENT);
-            Events.get(getActivity()).addEvent(event);
-
-            updateUI();
-            //mEvents.setDate(date);
-            //mEvents.setDate(date);
-
-        }
-        else{
-            System.out.println("TESTING");
-        }
-    }
-    @Override
-    public void onResume(){
-        super.onResume();
-        updateUI();
-
     }
 }
 

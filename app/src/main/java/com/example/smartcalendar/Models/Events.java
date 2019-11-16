@@ -22,6 +22,7 @@ public class Events
 
     private Context mContext;
     private SQLiteDatabase mDatabase;
+    private int mPriority;
 
     public static Events get(Context context)
     {
@@ -44,6 +45,11 @@ public class Events
     {
 
         return this.mDate;
+    }
+
+    public void setShowHigh(int high)
+    {
+        mPriority = high;
     }
 
     public void setDate(Date date)
@@ -123,8 +129,8 @@ public class Events
         ContentValues values = new ContentValues();
         values.put(EventDbSchema.EventTable.Cols.UUID, event.getUUID().toString());
         values.put(EventDbSchema.EventTable.Cols.TITLE, event.getTitle());
-        //values.put(EventDbSchema.EventTable.Cols.DATE, event.getDate().getTime());
-        //values.put(EventDbSchema.EventTable.Cols.PRIORITY, event.getPriority());
+        values.put(EventDbSchema.EventTable.Cols.DATE, event.getDate().getTime());
+        values.put(EventDbSchema.EventTable.Cols.PRIORITY, event.getPriority());
         values.put(EventDbSchema.EventTable.Cols.DESCRIPTION, event.getDescription());
 
         return values;

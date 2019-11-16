@@ -18,6 +18,12 @@ public class Event {
         this.mId = UUID.randomUUID();
     }
 
+    public Event(Date date)
+    {
+        this.mId = UUID.randomUUID();
+        this.mDate = date;
+    }
+
     public Event(UUID mId, Date date)
     {
         this.mId = mId;
