@@ -47,11 +47,6 @@ public class Events
         return this.mDate;
     }
 
-    public void setShowHigh(int high)
-    {
-        mPriority = high;
-    }
-
     public void setDate(Date date)
     {
         this.mDate = date;
@@ -84,19 +79,22 @@ public class Events
     public List<Event> getEvents(Date date)
     {
         List<Event> events = new ArrayList<>();
+
         EventCursorWrapper cursor = queryEvents(null, null);
         try
         {
             cursor.moveToFirst();
             while(!cursor.isAfterLast())
             {
-                System.out.println(cursor.getEvent().getDate() +" "+ date);
-                if(cursor.getEvent().getDate().getDay() == date.getDay()&&cursor.getEvent().getDate().getMonth() == date.getMonth()&&cursor.getEvent().getDate().getYear() == date.getYear()){
+                System.out.println("The date in the db is " + cursor.getEvent().getDate().getDate() + "\nThe date clicked is " + date.getDate());
+                //if (cursor.getEvent().getDate().compareTo(date) == 0)
+
+                if((cursor.getEvent().getDate().getDate()== date.getDate()) && (cursor.getEvent().getDate().getMonth()== date.getMonth()) && cursor.getEvent().getDate().getYear()== date.getYear()){
                     System.out.println("adding date to array list");
                     events.add(cursor.getEvent());
                 }
                 else{
-                    //System.out.println("the event date is: " +cursor.getEvent().getDate().toString()+ " add the date beibg checked is " + date.toString());
+                    System.out.println("the event date is: " +cursor.getEvent().getDate().getTime()+ " add the date beibg checked is " + date.getTime());
                 }
                 cursor.moveToNext();
             }
@@ -105,16 +103,17 @@ public class Events
             cursor.close();
         }
 
-        System.out.println("size of array list "+events.size());
-
         return events;
     }
 
     public void addEvent(Event event)
     {
+        //System.out.println("in addEvent, printing date " + event.getDate().toString());
         ContentValues values = getContentValues(event);
+        System.out.println("The date being inserted into the db is " + values.get(EventDbSchema.EventTable.Cols.DATE));
         mDatabase.insert(EventDbSchema.EventTable.NAME, null, values);
     }
+
 
     public void deleteEvent(Event event)
     {
@@ -155,10 +154,12 @@ public class Events
 
     private static ContentValues getContentValues(Event event)
     {
+        System.out.println("in getContentValues, printing date " + event.getDate().toString());
         ContentValues values = new ContentValues();
         values.put(EventDbSchema.EventTable.Cols.UUID, event.getUUID().toString());
         values.put(EventDbSchema.EventTable.Cols.TITLE, event.getTitle());
         values.put(EventDbSchema.EventTable.Cols.DATE, event.getDate().getTime());
+        values.put(EventDbSchema.EventTable.Cols.TIME, event.getTIme());
         values.put(EventDbSchema.EventTable.Cols.PRIORITY, event.getPriority());
         values.put(EventDbSchema.EventTable.Cols.DESCRIPTION, event.getDescription());
 
@@ -176,9 +177,5 @@ public class Events
                 null);
 
         return new EventCursorWrapper(cursor);
-    }
-
-    public void setShowOnlyDate(Date date) {
-        mShowOnlyDate = date;
     }
 }

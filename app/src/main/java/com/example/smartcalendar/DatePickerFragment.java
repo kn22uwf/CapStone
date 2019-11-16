@@ -64,7 +64,7 @@ public class DatePickerFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            Intent intent = EventPagerActivity.newIntent(getActivity(),mEvent.getUUID(), mEvent.getDate());
+            Intent intent = EventPagerActivity.newIntent(getActivity(),mEvent.getUUID(), mEvent.getDate(),mEvent.getPriority());
             startActivity(intent);
 
         }
@@ -150,10 +150,10 @@ public class DatePickerFragment extends Fragment {
             @Override
             public void onSelectedDayChange( CalendarView view, int year, int month, int dayOfMonth) {
                 //mCalendarView.setDate(view.getDate());
-
-                picked.setDate(dayOfMonth);
-                picked.setMinutes(month);
-                picked.setYear(year);
+                picked = new Date(year, month, dayOfMonth);
+                //picked.setDate(dayOfMonth);
+                //picked.setMinutes(month);
+                //picked.setYear(year);
                 //Events.get(getActivity()).setShowOnlyDate(picked);
                 System.out.println("pcikeddddddd " +picked.toString());
                 updateUI(picked);
