@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.smartcalendar.Models.Event;
@@ -45,6 +46,7 @@ public class DatePickerFragment extends Fragment {
         private Event mEvent;
         private TextView mTitle;
         private TextView mDate;
+        private TextView mPriority;
 
 
         public EventHolder(LayoutInflater inflater,ViewGroup parent){
@@ -53,6 +55,7 @@ public class DatePickerFragment extends Fragment {
             itemView.setOnClickListener(this);
             mTitle = (TextView)itemView.findViewById(R.id.event_title);
             mDate = (TextView)itemView.findViewById(R.id.event_date);
+            mPriority = (TextView)itemView.findViewById(R.id.priority_id);
         }
 
         public void bind(Event event){
@@ -60,6 +63,32 @@ public class DatePickerFragment extends Fragment {
             mTitle.setText(mEvent.getTitle());
             mDate.setText(mEvent.getDate().toString());
 
+            try {
+                switch (mEvent.getPriority()) {
+                    case 1:
+                        mPriority.setText("1");
+                        break;
+                    case 2:
+                        mPriority.setText("2");
+                        break;
+                    case 3:
+                        mPriority.setText("3");
+                        break;
+                    case 4:
+                        mPriority.setText("4");
+                        break;
+                    case 5:
+                        mPriority.setText("5");
+                        break;
+
+                    default:
+                        mPriority.setText("0");
+                        break;
+                }
+
+            } catch (Exception e) {
+                System.out.println("Something went wrong.");
+            }
         }
 
         @Override
@@ -107,7 +136,6 @@ public class DatePickerFragment extends Fragment {
 
 
     private CalendarView mCalendarView;
-    private ListView mListView;
     private Date picked = new Date();
     private RecyclerView mEventRecyclerView;
     private EventAdapter mAdapter;
@@ -145,7 +173,6 @@ public class DatePickerFragment extends Fragment {
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         mCalendarView = (CalendarView) v.findViewById(R.id.date);
-        System.out.println(mCalendarView.getDate());
         mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange( CalendarView view, int year, int month, int dayOfMonth) {
@@ -155,29 +182,10 @@ public class DatePickerFragment extends Fragment {
                 //picked.setMinutes(month);
                 //picked.setYear(year);
                 //Events.get(getActivity()).setShowOnlyDate(picked);
-                System.out.println("pcikeddddddd " +picked.toString());
                 updateUI(picked);
             }
         });
-        /*
-        ArrayList<String> alpha = new ArrayList<>();
 
-
-        for (int i = 0; i < events.size(); i++)
-        {
-            if (events.get(i).getDate() == picked)
-            {
-                alpha.add(events.get(i).getTitle());
-            }
-        }
-        System.out.println("Hello");
-
-        if (alpha.size() > 0)
-        {
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, alpha);
-            mListView.setAdapter(adapter);
-        }
-    */
         return v;
 
     }
@@ -225,20 +233,6 @@ public class DatePickerFragment extends Fragment {
 
         Events event = Events.get(getActivity());
         List<Event> events = event.getEvents(date);
-        Event temp = null;
-
-        for (int i = 0; i < events.size(); i++)
-        {
-            if (i != events.size() - 1)
-            {
-                if (events.get(i).getPriority() > events.get(i + 1).getPriority())
-                {
-                    temp = events.get(i);
-                    events.add(i, events.get(i + 1));
-                    events.add(i + 1, temp);
-                }
-            }
-        }
 
         if (mAdapter == null) {
             mAdapter = new EventAdapter(events);

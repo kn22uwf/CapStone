@@ -11,7 +11,6 @@ public class Event {
     private String mDescription;
     private int mPriority;
     private Date mDate;
-    private Date mShowOnlyDate;
 
     private String mTime;
 
@@ -88,8 +87,5 @@ public class Event {
         return mDate;
     }
 
-    public Date isDate(){
-        return  mShowOnlyDate;
-    }
 }
 

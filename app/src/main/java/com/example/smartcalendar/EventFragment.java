@@ -131,11 +131,6 @@ public class EventFragment extends Fragment {
                 mEvent.setPriority(newVal);
             }
         });
-
-
-
-
-
         mDescription = view.findViewById(R.id.description);
         mDescription.setText(mEvent.getDescription());
         mDescription.addTextChangedListener(new TextWatcher() {

@@ -28,7 +28,6 @@ public class EventCursorWrapper extends CursorWrapper {
         event.setTitle(title);
         event.setDate(new Date(date));
         event.setTime(time);
-        //add method for adding time
         event.setPriority(priority);
         event.setDescription(description);
 

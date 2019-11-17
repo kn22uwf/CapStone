@@ -18,11 +18,9 @@ public class Events
 
     private static Events sEvents;
     private Date mDate;
-    private Date mShowOnlyDate;
 
     private Context mContext;
     private SQLiteDatabase mDatabase;
-    private int mPriority;
 
     public static Events get(Context context)
     {

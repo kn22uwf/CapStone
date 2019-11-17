@@ -48,7 +48,7 @@ private Events mEvents;
             itemView.setOnClickListener(this);
             mTitle = (TextView)itemView.findViewById(R.id.event_title);
             mDate = (TextView)itemView.findViewById(R.id.event_date);
-            mPriority =(TextView)itemView.findViewById(R.id.priority);
+            mPriority =(TextView)itemView.findViewById(R.id.priority_id);
 
         }
 
