@@ -108,6 +108,25 @@ public class Events
             cursor.close();
         }
 
+        Event temp = null;
+        int size = events.size();
+        System.out.println("The size of the list is " + events.size());
+        for (int i = 0; i < size; i++)
+        {
+            System.out.println("Current index is " + i);
+            if (i != events.size() - 1)
+            {
+                if (events.get(i).getPriority() > events.get(i + 1).getPriority())
+                {
+
+                    temp = events.get(i);
+                    events.add(i, events.get(i + 1));
+                    events.remove(temp);
+                    events.add(i + 1, temp);
+                }
+            }
+        }
+
         return events;
     }
 

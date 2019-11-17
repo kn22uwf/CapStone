@@ -225,20 +225,6 @@ public class DatePickerFragment extends Fragment {
 
         Events event = Events.get(getActivity());
         List<Event> events = event.getEvents(date);
-        Event temp = null;
-
-        for (int i = 0; i < events.size(); i++)
-        {
-            if (i != events.size() - 1)
-            {
-                if (events.get(i).getPriority() > events.get(i + 1).getPriority())
-                {
-                    temp = events.get(i);
-                    events.add(i, events.get(i + 1));
-                    events.add(i + 1, temp);
-                }
-            }
-        }
 
         if (mAdapter == null) {
             mAdapter = new EventAdapter(events);
