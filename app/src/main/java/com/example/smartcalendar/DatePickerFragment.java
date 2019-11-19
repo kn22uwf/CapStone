@@ -94,6 +94,7 @@ public class DatePickerFragment extends Fragment {
         @Override
         public void onClick(View v) {
             Intent intent = EventPagerActivity.newIntent(getActivity(),mEvent.getUUID(), mEvent.getDate(),mEvent.getPriority());
+            //Intent intent = EventActivity.newIntent(getActivity(),mEvent.getUUID(),mEvent.getDate());
             startActivity(intent);
 
         }

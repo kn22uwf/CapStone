@@ -104,6 +104,7 @@ public class Events
         Event temp = null;
         int size = events.size();
         System.out.println("The size of the list is " + events.size());
+
         for (int i = 0; i < size; i++)
         {
             System.out.println("Current index is " + i);

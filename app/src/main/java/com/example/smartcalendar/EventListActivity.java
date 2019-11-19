@@ -6,6 +6,8 @@ public class EventListActivity extends SingleFragmentActivity {
     @Override
     public Fragment createFragment() {
 
+
+
         return new EventListFragment();
 
     }
