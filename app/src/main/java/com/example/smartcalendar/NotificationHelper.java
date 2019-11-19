@@ -42,5 +42,6 @@ public class NotificationHelper extends ContextWrapper {
                 .setContentTitle("Alarm!")
                 .setContentText("you have an event coming up")
                 .setSmallIcon(R.drawable.ic_notification);
+
     }
 }
