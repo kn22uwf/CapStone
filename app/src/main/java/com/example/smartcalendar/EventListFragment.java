@@ -31,7 +31,7 @@ public class EventListFragment extends Fragment {
 
 
 private Events mEvents;
-    private static final String DIALOG_DATE = "dialog_date";
+    //private static final String DIALOG_DATE = "dialog_date";
     private static final int REQUEST_DATE = 1;
 
     public class EventHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -39,6 +39,7 @@ private Events mEvents;
         private Event mEvent;
         private TextView mTitle;
         private TextView mDate;
+        private TextView mPriority;
 
 
         public EventHolder(LayoutInflater inflater,ViewGroup parent){
@@ -47,8 +48,7 @@ private Events mEvents;
             itemView.setOnClickListener(this);
             mTitle = (TextView)itemView.findViewById(R.id.event_title);
             mDate = (TextView)itemView.findViewById(R.id.event_date);
-            //mMemoryFav = (ImageView)itemView.findViewById(R.id.star);
-            //mImageIcon = (ImageView)itemView.findViewById(R.id.image_icon);
+            mPriority =(TextView)itemView.findViewById(R.id.priority_id);
 
         }
 
@@ -56,12 +56,13 @@ private Events mEvents;
             mEvent = event;
             mTitle.setText(mEvent.getTitle());
             mDate.setText(mEvent.getDate().toString());
+            mPriority.setText(mEvent.getPriority());
 
         }
 
         @Override
         public void onClick(View v) {
-            Intent intent = EventPagerActivity.newIntent(getActivity(),mEvent.getUUID(), mEvent.getDate());
+            Intent intent = EventPagerActivity.newIntent(getActivity(),mEvent.getUUID(), mEvent.getDate(),mEvent.getPriority());
             startActivity(intent);
 
         }
@@ -150,14 +151,6 @@ private Events mEvents;
             if(resultCode != Activity.RESULT_OK)
             {
                 return;
-            }
-
-            else if(requestCode == REQUEST_DATE)
-            {
-                //Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
-                //mEvents.setDate(date);
-                //mEvents.setDate(date);
-
             }
         }
 

@@ -23,12 +23,13 @@ public class EventPagerActivity extends AppCompatActivity {
 
     private static final String EXTRA_MEMORY_ID = "memory_id";
     private static final String EXTRA_DATE_ID = "date_id";
+    private static final String EXTRA_PRIORITY = "priority";
 
-
-    public static Intent newIntent(Context packageContext, UUID eventId, Date date){
+    public static Intent newIntent(Context packageContext, UUID eventId, Date date, int priority){
         Intent intent = new Intent(packageContext,EventPagerActivity.class);
         intent.putExtra(EXTRA_MEMORY_ID,eventId);
         intent.putExtra(EXTRA_DATE_ID, date);
+        intent.putExtra(EXTRA_PRIORITY, priority);
         return  intent;
     }
 
@@ -38,7 +39,7 @@ public class EventPagerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_event_pager);
 
         UUID eventId = (UUID)getIntent().getSerializableExtra(EXTRA_MEMORY_ID);
-        Date date = (Date)getIntent().getSerializableExtra(EXTRA_DATE_ID);
+        //Date date = (Date)getIntent().getSerializableExtra(EXTRA_DATE_ID);
 
 
         mViewPager = findViewById(R.id.event_view_pager);

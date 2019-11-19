@@ -64,7 +64,7 @@ public class EventFragment extends Fragment {
         Bundle args = new Bundle();
         args.putSerializable(ARG_EVENT_ID,eventID);
         args.putSerializable(DATE, date);
-        //System.out.println("Datey mcDateFace " + date.toString() );
+        System.out.println("Datey mcDateFace " + date.toString() );
         EventFragment fragment = new EventFragment();
         fragment.setArguments(args);
         return fragment;
@@ -74,11 +74,23 @@ public class EventFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         UUID eventId = (UUID)getArguments().getSerializable(ARG_EVENT_ID);
-        //Date date = (Date) getArguments().getSerializable(DATE);
+        Date date = (Date) getArguments().getSerializable(DATE);
+        System.out.println("yesssss bitch " +date.toString());
+        //mEvent.setDate(date);
+        if (date != null)
+        {
+            //mEvent.setDate(date);
+            System.out.println("This shit fuckin broke");
+        }
+        else
+        {
+            System.out.println("Date is being set to null");
+        }
+        //mEvent.setDate(new Date());
         setHasOptionsMenu(true);
         mEvent = Events.get(getActivity()).getEvent(eventId);
         //Date date = Events.get(getActivity()).getDate();
-        Date date = mEvent.getDate();
+        //Date date = mEvent.getDate();
         //System.out.println("Hello fuckers" + date.toString());
     }
 
@@ -119,11 +131,6 @@ public class EventFragment extends Fragment {
                 mEvent.setPriority(newVal);
             }
         });
-
-
-
-
-
         mDescription = view.findViewById(R.id.description);
         mDescription.setText(mEvent.getDescription());
         mDescription.addTextChangedListener(new TextWatcher() {
@@ -157,7 +164,8 @@ public class EventFragment extends Fragment {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute)
                     {
-                        mReminder.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
+                        String alpha = hourOfDay + ":" + minute;
+                        mReminder.setText(alpha);
                     }
                 }, currHour, currMinute, false);
 
@@ -193,13 +201,12 @@ public class EventFragment extends Fragment {
         }
         if(requestCode == REQUEST_DATE){
 
-
         }
-
     }
 
     private void updateDate() {
-
+        //System.out.println("FUCKKK " + Events.get(getActivity()).getEvent(mEvent.getUUID()).getDate());
+        //System.out.println("In updateDate in event fragment " + mEvent.getDate().toString());
         mDateField.setText(mEvent.getDate().toString());
         sendResult(Activity.RESULT_OK, mEvent.getDate());
     }

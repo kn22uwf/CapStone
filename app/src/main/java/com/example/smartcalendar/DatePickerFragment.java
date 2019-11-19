@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.smartcalendar.Models.Event;
@@ -45,6 +46,7 @@ public class DatePickerFragment extends Fragment {
         private Event mEvent;
         private TextView mTitle;
         private TextView mDate;
+        private TextView mPriority;
 
 
         public EventHolder(LayoutInflater inflater,ViewGroup parent){
@@ -53,6 +55,7 @@ public class DatePickerFragment extends Fragment {
             itemView.setOnClickListener(this);
             mTitle = (TextView)itemView.findViewById(R.id.event_title);
             mDate = (TextView)itemView.findViewById(R.id.event_date);
+            mPriority = (TextView)itemView.findViewById(R.id.priority_id);
         }
 
         public void bind(Event event){
@@ -60,14 +63,43 @@ public class DatePickerFragment extends Fragment {
             mTitle.setText(mEvent.getTitle());
             mDate.setText(mEvent.getDate().toString());
 
+            try {
+                switch (mEvent.getPriority()) {
+                    case 1:
+                        mPriority.setText("1");
+                        break;
+                    case 2:
+                        mPriority.setText("2");
+                        break;
+                    case 3:
+                        mPriority.setText("3");
+                        break;
+                    case 4:
+                        mPriority.setText("4");
+                        break;
+                    case 5:
+                        mPriority.setText("5");
+                        break;
+
+                    default:
+                        mPriority.setText("0");
+                        break;
+                }
+
+            } catch (Exception e) {
+                System.out.println("Something went wrong.");
+            }
         }
 
         @Override
         public void onClick(View v) {
-            Intent intent = EventPagerActivity.newIntent(getActivity(), mEvent.getUUID(), mEvent.getDate());
+            Intent intent = EventPagerActivity.newIntent(getActivity(),mEvent.getUUID(), mEvent.getDate(),mEvent.getPriority());
             startActivity(intent);
+
         }
+
     }
+
     private class EventAdapter extends RecyclerView.Adapter<EventHolder>{
         public List<Event> mEvents;
         public EventAdapter(List<Event> events){
@@ -81,10 +113,13 @@ public class DatePickerFragment extends Fragment {
             return new EventHolder(layoutInflater,parent);
         }
 
+
         @Override
         public void onBindViewHolder(@NonNull EventHolder eventHolder, int i) {
             Event event = mEvents.get(i);
             eventHolder.bind(event);
+
+
         }
 
         @Override
@@ -101,7 +136,6 @@ public class DatePickerFragment extends Fragment {
 
 
     private CalendarView mCalendarView;
-    private ListView mListView;
     private Date picked = new Date();
     private RecyclerView mEventRecyclerView;
     private EventAdapter mAdapter;
@@ -129,7 +163,6 @@ public class DatePickerFragment extends Fragment {
         View v = LayoutInflater.from(getActivity()).inflate(R.layout.calender, null);
         mEventRecyclerView = (RecyclerView)v.findViewById(R.id.date_events);
         mEventRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        updateUI();
         Events event = Events.get(getActivity());
         List<Event> events = event.getEvents();
         Date date = (Date) event.getDate();
@@ -140,20 +173,18 @@ public class DatePickerFragment extends Fragment {
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         mCalendarView = (CalendarView) v.findViewById(R.id.date);
-        System.out.println(mCalendarView.getDate());
         mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange( CalendarView view, int year, int month, int dayOfMonth) {
                 //mCalendarView.setDate(view.getDate());
-                //System.out.println(calendar.getTime().getDate() + " " + calendar.getTime().getMonth() + " " + calendar.getTime().getYear());
-                picked.setDate(dayOfMonth);
-                picked.setMinutes(month);
-                picked.setYear(year);
-                Events.get(getActivity()).setShowHigh(5);
-                updateUI();
+                picked = new Date(year, month, dayOfMonth);
+                //picked.setDate(dayOfMonth);
+                //picked.setMinutes(month);
+                //picked.setYear(year);
+                //Events.get(getActivity()).setShowOnlyDate(picked);
+                updateUI(picked);
             }
         });
-        System.out.println(mCalendarView.getDate());
 
         return v;
 
@@ -180,10 +211,6 @@ public class DatePickerFragment extends Fragment {
                 Intent i = EventActivity.newIntent(getActivity(), event.getUUID(), picked);
                 startActivityForResult(i, REQUEST_EVENT);
                 return true;
-            case R.id.filter_high:
-                Events.get(getActivity()).setShowHigh(5);
-                updateUI();
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -202,11 +229,16 @@ public class DatePickerFragment extends Fragment {
         getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, intent);
     }
 
-    private void updateUI() {
+    private void updateUI(Date date) {
 
         Events event = Events.get(getActivity());
-        List<Event> events = event.getEvents();
-
+        List<Event> events = event.getEvents(date);
+        System.out.println("Printing all elements");
+        System.out.println("The size of the list is " + events.size());
+        for (int i = 0; i < events.size(); i++)
+        {
+            System.out.println(events.get(i).getTitle());
+        }
         if (mAdapter == null) {
             mAdapter = new EventAdapter(events);
             mEventRecyclerView.setAdapter(mAdapter);
@@ -214,7 +246,10 @@ public class DatePickerFragment extends Fragment {
             mAdapter.setEvents(events);
             mAdapter.notifyDataSetChanged();
         }
-
+        //FragmentManager manager = getFragmentManager();
+        //DatePickerFragment dialog = DatePickerFragment.newInstance(event.getDate());
+        //dialog.setTargetFragment(EventListFragment.this, REQUEST_DATE);
+        //dialog.show(manager,DIALOG_DATE);
     }
 
     @Override
@@ -225,14 +260,21 @@ public class DatePickerFragment extends Fragment {
             Date date = (Date) data.getSerializableExtra(EventFragment.EVENT);
             Event event = new Event(UUID.randomUUID(), date);
             Events.get(getActivity()).addEvent(event);
-            updateUI();
+            System.out.println("FUCK THIS SHIT " + event.getDate().toString());
+            updateUI(picked);
+            //mEvents.setDate(date);
+            //mEvents.setDate(date);
 
+        }
+        else
+        {
+            System.out.println("something fucked up");
         }
     }
     @Override
     public void onResume(){
         super.onResume();
-        updateUI();
+        updateUI(picked);
 
     }
 }
