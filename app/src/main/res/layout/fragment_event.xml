@@ -90,8 +90,8 @@
 
     </LinearLayout>
     <LinearLayout
-        android:layout_width="318dp"
-        android:layout_height="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="left"
         >
@@ -100,10 +100,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Set reminder:" />
-        <EditText
-            android:id="@+id/reminder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/alarm_button"
+            android:layout_width="154dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Set reminder"
+            android:layout_marginLeft="45dp"/>
+
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
