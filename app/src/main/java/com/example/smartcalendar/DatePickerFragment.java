@@ -154,25 +154,7 @@ public class DatePickerFragment extends Fragment {
             }
         });
         System.out.println(mCalendarView.getDate());
-        /*
-        ArrayList<String> alpha = new ArrayList<>();
 
-
-        for (int i = 0; i < events.size(); i++)
-        {
-            if (events.get(i).getDate() == picked)
-            {
-                alpha.add(events.get(i).getTitle());
-            }
-        }
-        System.out.println("Hello");
-
-        if (alpha.size() > 0)
-        {
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, alpha);
-            mListView.setAdapter(adapter);
-        }
-    */
         return v;
 
     }
@@ -232,10 +214,7 @@ public class DatePickerFragment extends Fragment {
             mAdapter.setEvents(events);
             mAdapter.notifyDataSetChanged();
         }
-        //FragmentManager manager = getFragmentManager();
-        //DatePickerFragment dialog = DatePickerFragment.newInstance(event.getDate());
-        //dialog.setTargetFragment(EventListFragment.this, REQUEST_DATE);
-        //dialog.show(manager,DIALOG_DATE);
+
     }
 
     @Override
