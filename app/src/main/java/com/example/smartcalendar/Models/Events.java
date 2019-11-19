@@ -11,7 +11,7 @@ import com.example.smartcalendar.database.EventDbSchema;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class Events
 {
@@ -84,15 +84,15 @@ public class Events
             cursor.moveToFirst();
             while(!cursor.isAfterLast())
             {
-                System.out.println("The date in the db is " + cursor.getEvent().getDate().getDate() + "\nThe date clicked is " + date.getDate());
+                //System.out.println("The date in the db is " + cursor.getEvent().getDate().getDate() + "\nThe date clicked is " + date.getDate());
                 //if (cursor.getEvent().getDate().compareTo(date) == 0)
 
                 if((cursor.getEvent().getDate().getDate()== date.getDate()) && (cursor.getEvent().getDate().getMonth()== date.getMonth()) && cursor.getEvent().getDate().getYear()== date.getYear()){
-                    System.out.println("adding date to array list");
+                    //System.out.println("adding date to array list");
                     events.add(cursor.getEvent());
                 }
                 else{
-                    System.out.println("the event date is: " +cursor.getEvent().getDate().getTime()+ " add the date beibg checked is " + date.getTime());
+                    //System.out.println("the event date is: " +cursor.getEvent().getDate().getTime()+ " add the date beibg checked is " + date.getTime());
                 }
                 cursor.moveToNext();
             }
@@ -104,21 +104,57 @@ public class Events
         Event temp = null;
         int size = events.size();
         System.out.println("The size of the list is " + events.size());
-        for (int i = 0; i < size; i++)
-        {
-            System.out.println("Current index is " + i);
-            if (i != events.size() - 1)
-            {
-                if (events.get(i).getPriority() > events.get(i + 1).getPriority())
-                {
 
-                    temp = events.get(i);
-                    events.add(i, events.get(i + 1));
-                    events.remove(temp);
-                    events.add(i + 1, temp);
+        System.out.println("The ordering before sorting");
+        for (int i = 0; i < events.size(); i++)
+        {
+            System.out.println(events.get(i).getPriority());
+        }
+
+        for (int i = 0; i < events.size(); i++)
+        {
+            for (int j = 1; j < events.size(); j++)
+            {
+                System.out.println("The value of j is " + j);
+                if (events.get(j - 1).getPriority() > events.get(j).getPriority())
+                {
+                    System.out.println("Switching " + events.get(j - 1).getPriority() + " and " + events.get(j).getPriority());
+                    temp = events.get(j - 1);
+                    events.remove(j - 1);
+                    //System.out.println("The event in temp is " + temp.getTitle() + " with priority " + temp.getPriority());
+                    events.add(j ,temp );
+                    //events.remove(i + 1);
+                    //events.add(i + 1, temp);
+                    System.out.println("Done switching, the size of the list is " + events.size());
+
                 }
+                else
+                {
+                    System.out.println("Not switching " + events.get(j -1).getPriority() + " and " + events.get(j).getPriority());
+                }
+                System.out.println(" end The value of j is " + j);
             }
         }
+        /*
+        for (int i = 0; i < size; i++)
+        {
+            //System.out.println("Current index is " + i);
+            if (i != events.size() - 1)
+            {
+                    for (int j = 0; j < i; j++)
+                    {
+                        temp = events.get(j + 1);
+                        events.remove(j + 1);
+                        System.out.println("The event in temp is " + temp.getTitle() + " with priority " + temp.getPriority());
+                        events.add(j, temp);
+                        //events.remove(i + 1);
+                        //events.add(i + 1, temp);
+                        System.out.println("Done switching, the size of the list is " + events.size());
+                    }
+            }
+        }
+        */
+
 
         return events;
     }
@@ -171,7 +207,7 @@ public class Events
 
     private static ContentValues getContentValues(Event event)
     {
-        System.out.println("in getContentValues, printing date " + event.getDate().toString());
+        //System.out.println("in getContentValues, printing date " + event.getDate().toString());
         ContentValues values = new ContentValues();
         values.put(EventDbSchema.EventTable.Cols.UUID, event.getUUID().toString());
         values.put(EventDbSchema.EventTable.Cols.TITLE, event.getTitle());

@@ -233,7 +233,12 @@ public class DatePickerFragment extends Fragment {
 
         Events event = Events.get(getActivity());
         List<Event> events = event.getEvents(date);
-
+        System.out.println("Printing all elements");
+        System.out.println("The size of the list is " + events.size());
+        for (int i = 0; i < events.size(); i++)
+        {
+            System.out.println(events.get(i).getTitle());
+        }
         if (mAdapter == null) {
             mAdapter = new EventAdapter(events);
             mEventRecyclerView.setAdapter(mAdapter);
