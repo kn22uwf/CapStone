@@ -32,6 +32,7 @@ import android.widget.NumberPicker;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 
 import com.example.smartcalendar.Models.Event;
@@ -42,7 +43,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
-public class EventFragment extends Fragment{
+public class EventFragment extends Fragment implements View.OnClickListener {
 
 
     //private  static final int REQUEST_PHOTO = 1;
@@ -65,7 +66,11 @@ public class EventFragment extends Fragment{
     private Calendar calendar;
     private  Button mAlarmButton;
     private Calendar currentTime;
-    private String format;
+    private Button mPriority1;
+    private Button mPriority2;
+    private Button mPriority3;
+    private Button mPriority4;
+    private Button mPriority5;
 
 
     public static EventFragment newInstance(UUID eventID, Date date){
@@ -162,16 +167,16 @@ public class EventFragment extends Fragment{
         mDateField  = view.findViewById(R.id.date);
         updateDate();
 
-        mNumberPicker = view.findViewById(R.id.number_picker);
-        mNumberPicker.setMaxValue(5);
-        mNumberPicker.setMinValue(1);
-        mNumberPicker.setWrapSelectorWheel(true);
-        mNumberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                mEvent.setPriority(newVal);
-            }
-        });
+
+        mPriority1 = view.findViewById(R.id.button1);
+        mPriority2 = view.findViewById(R.id.button2);
+        mPriority3 = view.findViewById(R.id.button3);
+        mPriority4 = view.findViewById(R.id.button4);
+        mPriority5 = view.findViewById(R.id.button5);
+
+        mPriority1.setOnClickListener(this);
+
+
         mDescription = view.findViewById(R.id.description);
         mDescription.setText(mEvent.getDescription());
         mDescription.addTextChangedListener(new TextWatcher() {
@@ -296,5 +301,26 @@ public class EventFragment extends Fragment{
 
     }
 
+    @Override
+    public void onClick(View view) {
+        switch(view.getId()){
+            case R.id.button1:
+                mEvent.setPriority(1);
+                mPriority1.setEnabled(false);
+                break;
+            case R.id.button2:
+                mPriority2.setEnabled(false);
+                break;
+            case R.id.button3:
+                mPriority3.setEnabled(false);
+                break;
+            case R.id.button4:
+                mPriority4.setEnabled(false);
+                break;
+            case R.id.button5:
+                mPriority5.setEnabled(false);
+                break;
+        }
+    }
 }
 
