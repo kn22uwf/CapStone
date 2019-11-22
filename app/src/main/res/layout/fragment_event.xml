@@ -48,13 +48,15 @@
             android:layout_marginRight="20dp"
             android:layout_marginLeft="10dp"
             android:textStyle="bold"
-            android:text="Date:" />
+            android:text="Time:" />
 
-        <TextView
-            android:id="@+id/date"
-            android:layout_width="157dp"
-            android:textStyle="bold"
-            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/event_time"
+            android:layout_width="151dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="30dp"
+            android:text="Choose Time " />
     </LinearLayout>
 
     <LinearLayout

@@ -63,6 +63,7 @@ public class EventFragment extends Fragment implements View.OnClickListener {
     private EditText mReminder;
     private Button mCreate;
     private Button mDelete;
+    private Button mTime;
     private Calendar calendar;
     private  Button mAlarmButton;
     private Calendar currentTime;
@@ -164,9 +165,52 @@ public class EventFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        mDateField  = view.findViewById(R.id.date);
-        updateDate();
+        //mDateField  = view.findViewById(R.id.date);
+        //updateDate();
 
+
+        mTime = view.findViewById(R.id.event_time);
+        mTime.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                currentTime = Calendar.getInstance();
+                int hour = currentTime.get(Calendar.HOUR_OF_DAY);
+                int minutes = currentTime.get(Calendar.MINUTE);
+                final Calendar c = Calendar.getInstance();
+                TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+
+                        c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        c.set(Calendar.MINUTE, minute);
+                        c.set(Calendar.SECOND, 0);
+                        mEvent.setDate(c.getTime());
+
+                        mTime.addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                                mTime.setText(c.getTime().toString());
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable editable) {
+
+                            }
+                        });
+                        sendResult(Activity.RESULT_OK, mEvent.getDate());
+                    }
+                },hour,minutes,false);
+                timePickerDialog.show();
+
+            }
+        });
 
         mPriority1 = view.findViewById(R.id.button1);
         mPriority2 = view.findViewById(R.id.button2);
@@ -175,6 +219,10 @@ public class EventFragment extends Fragment implements View.OnClickListener {
         mPriority5 = view.findViewById(R.id.button5);
 
         mPriority1.setOnClickListener(this);
+        mPriority2.setOnClickListener(this);
+        mPriority3.setOnClickListener(this);
+        mPriority4.setOnClickListener(this);
+        mPriority5.setOnClickListener(this);
 
 
         mDescription = view.findViewById(R.id.description);
@@ -202,6 +250,7 @@ public class EventFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onClick(View v) {
                 getActivity().finish();
+
             }
         });
 
@@ -232,6 +281,7 @@ public class EventFragment extends Fragment implements View.OnClickListener {
                         c.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         c.set(Calendar.MINUTE, minute);
                         c.set(Calendar.SECOND, 0);
+                        mAlarmButton.setText(c.getTime().toString());
                         startAlarm(c);
                     }
                 },hour,minutes,false);
@@ -273,9 +323,8 @@ public class EventFragment extends Fragment implements View.OnClickListener {
     }
 
     private void updateDate() {
-        //System.out.println("FUCKKK " + Events.get(getActivity()).getEvent(mEvent.getUUID()).getDate());
-        //System.out.println("In updateDate in event fragment " + mEvent.getDate().toString());
-        mDateField.setText(mEvent.getDate().toString());
+
+        //mDateField.setText(mEvent.getDate().getHours(),mEvent.getDate().getMinutes());
         sendResult(Activity.RESULT_OK, mEvent.getDate());
     }
 
@@ -307,17 +356,41 @@ public class EventFragment extends Fragment implements View.OnClickListener {
             case R.id.button1:
                 mEvent.setPriority(1);
                 mPriority1.setEnabled(false);
+                mPriority2.setEnabled(true);
+                mPriority3.setEnabled(true);
+                mPriority4.setEnabled(true);
+                mPriority5.setEnabled(true);
                 break;
             case R.id.button2:
+                mEvent.setPriority(2);
+                mPriority1.setEnabled(true);
                 mPriority2.setEnabled(false);
+                mPriority3.setEnabled(true);
+                mPriority4.setEnabled(true);
+                mPriority5.setEnabled(true);
                 break;
             case R.id.button3:
+                mEvent.setPriority(3);
+                mPriority1.setEnabled(true);
+                mPriority2.setEnabled(true);
                 mPriority3.setEnabled(false);
+                mPriority4.setEnabled(true);
+                mPriority5.setEnabled(true);
                 break;
             case R.id.button4:
+                mEvent.setPriority(4);
+                mPriority1.setEnabled(true);
+                mPriority2.setEnabled(true);
+                mPriority3.setEnabled(true);
                 mPriority4.setEnabled(false);
+                mPriority5.setEnabled(true);
                 break;
             case R.id.button5:
+                mEvent.setPriority(5);
+                mPriority1.setEnabled(true);
+                mPriority2.setEnabled(true);
+                mPriority3.setEnabled(true);
+                mPriority4.setEnabled(true);
                 mPriority5.setEnabled(false);
                 break;
         }
