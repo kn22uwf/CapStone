@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SmartCalendar</string>
+    <string name="app_name">Smart Calendar</string>
     <string name="date_picker_title">Date of crime:</string>
     <string name="event_report_subject">Report of event</string>
     <string name="event_report">Event name: %1s! Date of the Event: !%2s</string>
