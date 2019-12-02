@@ -8,6 +8,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
         android:text="Events"
         android:textSize="40sp"
         android:layout_gravity="center"
@@ -23,6 +24,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="10dp"
+        android:textStyle="bold"
         android:text="Event Name:" />
 
     <EditText
@@ -41,16 +45,22 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Date:" />
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"
+            android:text="Time:" />
 
-        <TextView
-            android:id="@+id/date"
-            android:layout_width="157dp"
-            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/event_time"
+            android:layout_width="151dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="30dp"
+            android:text="Choose Time " />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="318dp"
+        android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:layout_gravity="left"
         android:orientation="horizontal">
@@ -58,17 +68,38 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"
             android:text="Priority:" />
 
-        <NumberPicker
-            android:id="@+id/number_picker"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            />
+        <Button
+            android:layout_width="55dp"
+            android:id="@+id/button1"
+            android:text="1"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_width="55dp"
+            android:id="@+id/button2"
+            android:text="1"
+            android:layout_height="wrap_content" />
+        <Button
+            android:layout_width="55dp"
+            android:id="@+id/button3"
+            android:text="3"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:layout_width="55dp"
+            android:id="@+id/button4"
+            android:text="4"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:layout_width="55dp"
+            android:id="@+id/button5"
+            android:text="5"
+            android:layout_height="wrap_content"/>
+
 
     </LinearLayout>
 
@@ -80,18 +111,22 @@
         <TextView
             android:layout_width="93dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"
             android:text="Description:" />
 
         <EditText
             android:id="@+id/description"
             android:layout_width="314dp"
             android:text="No description yet"
+            android:layout_marginLeft="10dp"
+
             android:layout_height="71dp" />
 
     </LinearLayout>
     <LinearLayout
-        android:layout_width="318dp"
-        android:layout_height="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="left"
         >
@@ -99,11 +134,18 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"
             android:text="Set reminder:" />
-        <EditText
-            android:id="@+id/reminder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/alarm_button"
+            android:layout_width="154dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="30dp"
+            android:text="Set reminder" />
+
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"

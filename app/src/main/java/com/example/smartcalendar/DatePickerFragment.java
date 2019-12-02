@@ -94,6 +94,7 @@ public class DatePickerFragment extends Fragment {
         @Override
         public void onClick(View v) {
             Intent intent = EventPagerActivity.newIntent(getActivity(),mEvent.getUUID(), mEvent.getDate(),mEvent.getPriority());
+            //Intent intent = EventActivity.newIntent(getActivity(),mEvent.getUUID(),mEvent.getDate());
             startActivity(intent);
 
         }
@@ -139,6 +140,8 @@ public class DatePickerFragment extends Fragment {
     private Date picked = new Date();
     private RecyclerView mEventRecyclerView;
     private EventAdapter mAdapter;
+    private TextView mView1;
+    private TextView mView2;
 
     public static DatePickerFragment newInstance(Date date){
         Bundle args = new Bundle();
@@ -167,6 +170,10 @@ public class DatePickerFragment extends Fragment {
         List<Event> events = event.getEvents();
         Date date = (Date) event.getDate();
 
+
+        mView1 = (TextView)v.findViewById(R.id.view1);
+        mView2 = (TextView)v.findViewById(R.id.view2);
+        mView1.setText("    Events:");
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         int year = calendar.get(Calendar.YEAR);
