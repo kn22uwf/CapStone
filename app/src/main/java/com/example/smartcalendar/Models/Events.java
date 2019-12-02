@@ -135,25 +135,7 @@ public class Events
                 System.out.println(" end The value of j is " + j);
             }
         }
-        /*
-        for (int i = 0; i < size; i++)
-        {
-            //System.out.println("Current index is " + i);
-            if (i != events.size() - 1)
-            {
-                    for (int j = 0; j < i; j++)
-                    {
-                        temp = events.get(j + 1);
-                        events.remove(j + 1);
-                        System.out.println("The event in temp is " + temp.getTitle() + " with priority " + temp.getPriority());
-                        events.add(j, temp);
-                        //events.remove(i + 1);
-                        //events.add(i + 1, temp);
-                        System.out.println("Done switching, the size of the list is " + events.size());
-                    }
-            }
-        }
-        */
+
 
 
         return events;
