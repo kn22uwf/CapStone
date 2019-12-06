@@ -1,5 +1,6 @@
 # CapStone
 manuals: Contents (User manual to install Android studio, User manual for our application)
+<br />
                 This directory contains two manuals which go over the installation process of Android Studio and our application respectively.    
                 
 project_report: Contents (Project Report Capstone)
