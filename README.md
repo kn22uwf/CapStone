@@ -1,6 +1,8 @@
 # CapStone
 manuals: Contents (User manual to install Android studio, User manual for our application)
                 This directory contains two manuals which go over the installation process of Android Studio and our application                           respectively.
+                
+                
 project_report: Contents (Project Report Capstone)
                 This directory contains our Project Report.
 app/src/main/java/com/example/smartCalendar: Contents (Models directory, database directory, java files)
