@@ -1,5 +1,5 @@
 # CapStone
-manuals: Contents (User manual to install Android studio, User manual for our application)
+manuals: Contents (User manual to install Android studio, User manual for our application, User manual database browser)
 <br />
                 This directory contains two manuals which go over the installation process of Android Studio and our application respectively.    
                 
