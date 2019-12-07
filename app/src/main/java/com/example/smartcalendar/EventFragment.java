@@ -89,7 +89,6 @@ public class EventFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         UUID eventId = (UUID)getArguments().getSerializable(ARG_EVENT_ID);
         Date date = (Date) getArguments().getSerializable(DATE);
-        System.out.println("yesssss bitch " +date.toString());
         //mEvent.setDate(date);
         if (date != null)
         {
@@ -125,7 +124,7 @@ public class EventFragment extends Fragment implements View.OnClickListener {
             case R.id.send_button:
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT,getMemoriesReport());
+                intent.putExtra(Intent.EXTRA_TEXT,getEventsReport());
                 intent.putExtra(Intent.EXTRA_SUBJECT,getString(R.string.event_report_subject));
                 intent = Intent.createChooser(intent,getString(R.string.send_report));
                 startActivity(intent);
@@ -134,7 +133,7 @@ public class EventFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private String getMemoriesReport(){
+    private String getEventsReport(){
         String dateFormat = "EEE, MM dd";
         String dateString = DateFormat.format(dateFormat,mEvent.getDate()).toString();
         String report = getString(R.string.event_report,mEvent.getTitle(),dateString);
@@ -187,23 +186,7 @@ public class EventFragment extends Fragment implements View.OnClickListener {
                         c.set(Calendar.MINUTE, minute);
                         c.set(Calendar.SECOND, 0);
                         mEvent.setDate(c.getTime());
-
-                        mTime.addTextChangedListener(new TextWatcher() {
-                            @Override
-                            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                            }
-
-                            @Override
-                            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                                mTime.setText(c.getTime().toString());
-                            }
-
-                            @Override
-                            public void afterTextChanged(Editable editable) {
-
-                            }
-                        });
+                        mTime.setText(c.getTime().toString());
                         sendResult(Activity.RESULT_OK, mEvent.getDate());
                     }
                 },hour,minutes,false);
@@ -244,7 +227,6 @@ public class EventFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-
         mCreate = view.findViewById(R.id.create_button);
         mCreate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -282,6 +264,7 @@ public class EventFragment extends Fragment implements View.OnClickListener {
                         c.set(Calendar.MINUTE, minute);
                         c.set(Calendar.SECOND, 0);
                         mAlarmButton.setText(c.getTime().toString());
+                        //mEvent.setAlertTime(c.getTime());
                         startAlarm(c);
                     }
                 },hour,minutes,false);
@@ -322,11 +305,6 @@ public class EventFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void updateDate() {
-
-        //mDateField.setText(mEvent.getDate().getHours(),mEvent.getDate().getMinutes());
-        sendResult(Activity.RESULT_OK, mEvent.getDate());
-    }
 
     @Override
     public void onPause()
